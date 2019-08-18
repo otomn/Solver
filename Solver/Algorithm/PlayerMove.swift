@@ -10,12 +10,16 @@ import Foundation
 
 final class PlayerMove: GameAlgorithm{
     
-    init(){ }
+    init?(game: GameState) { }
+    
+    func makeMove<T>(_ game: T) -> T? where T : GameState {
+        return makeMove(game as GameState) as! T?
+    }
     
     func makeMove(_ game: GameState) -> GameState? {
         if let move = getInput(
             prompt: { """
-            \(game.moves())
+            \(game.moveDescription)
             \(game.playerSymbol()) move: 
             """ } ,
             failedMessage: "Invalid move",

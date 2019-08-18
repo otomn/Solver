@@ -12,6 +12,21 @@
 		DA53F3C322FB52D8000A5B35 /* PlayerMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C222FB52D8000A5B35 /* PlayerMove.swift */; };
 		DA53F3C522FB5735000A5B35 /* GussingGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C422FB5735000A5B35 /* GussingGame.swift */; };
 		DA53F3E022FC5B67000A5B35 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3DF22FC5B67000A5B35 /* Util.swift */; };
+		DA6229052301B82A0077EAB5 /* GussingGameH.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229042301B82A0077EAB5 /* GussingGameH.swift */; };
+		DA6229072301B8CE0077EAB5 /* MockGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229062301B8CE0077EAB5 /* MockGame.swift */; };
+		DA62292B2301C3B60077EAB5 /* MockGameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62292A2301C3B60077EAB5 /* MockGameTest.swift */; };
+		DA6229302301CA0C0077EAB5 /* GussingGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C422FB5735000A5B35 /* GussingGame.swift */; };
+		DA6229312301CA0C0077EAB5 /* MockGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229062301B8CE0077EAB5 /* MockGame.swift */; };
+		DA6229322301CA0C0077EAB5 /* GussingGameH.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229042301B82A0077EAB5 /* GussingGameH.swift */; };
+		DA6229332301CA0C0077EAB5 /* PlayerMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C222FB52D8000A5B35 /* PlayerMove.swift */; };
+		DA6229342301CA0C0077EAB5 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C022FB51A2000A5B35 /* Protocols.swift */; };
+		DA6229352301CA0C0077EAB5 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3DF22FC5B67000A5B35 /* Util.swift */; };
+		DA62293C2303AD6F0077EAB5 /* WinLoseH.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293B2303AD6F0077EAB5 /* WinLoseH.swift */; };
+		DA62293E2304C54C0077EAB5 /* MockAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293D2304C54C0077EAB5 /* MockAlgorithm.swift */; };
+		DA6229402304C6980077EAB5 /* MockAlgorithmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293F2304C6980077EAB5 /* MockAlgorithmTest.swift */; };
+		DA6229412304C9430077EAB5 /* MockAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293D2304C54C0077EAB5 /* MockAlgorithm.swift */; };
+		DA6229422304C9490077EAB5 /* WinLoseH.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293B2303AD6F0077EAB5 /* WinLoseH.swift */; };
+		DA6229492305A7200077EAB5 /* WinLoadHTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229482305A7200077EAB5 /* WinLoadHTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,10 +48,26 @@
 		DA53F3C222FB52D8000A5B35 /* PlayerMove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerMove.swift; sourceTree = "<group>"; };
 		DA53F3C422FB5735000A5B35 /* GussingGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GussingGame.swift; sourceTree = "<group>"; };
 		DA53F3DF22FC5B67000A5B35 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		DA6229042301B82A0077EAB5 /* GussingGameH.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GussingGameH.swift; sourceTree = "<group>"; };
+		DA6229062301B8CE0077EAB5 /* MockGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGame.swift; sourceTree = "<group>"; };
+		DA6229282301C3B60077EAB5 /* GameTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA62292A2301C3B60077EAB5 /* MockGameTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGameTest.swift; sourceTree = "<group>"; };
+		DA62292C2301C3B60077EAB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DA62293B2303AD6F0077EAB5 /* WinLoseH.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinLoseH.swift; sourceTree = "<group>"; };
+		DA62293D2304C54C0077EAB5 /* MockAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAlgorithm.swift; sourceTree = "<group>"; };
+		DA62293F2304C6980077EAB5 /* MockAlgorithmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAlgorithmTest.swift; sourceTree = "<group>"; };
+		DA6229482305A7200077EAB5 /* WinLoadHTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinLoadHTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		DA257F6A22FB502600CD90FD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA6229252301C3B60077EAB5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -50,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				DA257F6F22FB502600CD90FD /* Solver */,
+				DA6229292301C3B60077EAB5 /* GameTest */,
 				DA257F6E22FB502600CD90FD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				DA257F6D22FB502600CD90FD /* Solver */,
+				DA6229282301C3B60077EAB5 /* GameTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,7 +101,7 @@
 				DA53F3BF22FB5187000A5B35 /* CommenModel */,
 				DA53F3BC22FB509F000A5B35 /* Model */,
 				DA53F3BB22FB5098000A5B35 /* Heuristic */,
-				DA53F3BA22FB506F000A5B35 /* Algorithms */,
+				DA53F3BA22FB506F000A5B35 /* Algorithm */,
 				DA257F7022FB502600CD90FD /* main.swift */,
 				DA53F3C022FB51A2000A5B35 /* Protocols.swift */,
 				DA53F3DF22FC5B67000A5B35 /* Util.swift */,
@@ -76,17 +109,20 @@
 			path = Solver;
 			sourceTree = "<group>";
 		};
-		DA53F3BA22FB506F000A5B35 /* Algorithms */ = {
+		DA53F3BA22FB506F000A5B35 /* Algorithm */ = {
 			isa = PBXGroup;
 			children = (
 				DA53F3C222FB52D8000A5B35 /* PlayerMove.swift */,
+				DA62293D2304C54C0077EAB5 /* MockAlgorithm.swift */,
 			);
-			path = Algorithms;
+			path = Algorithm;
 			sourceTree = "<group>";
 		};
 		DA53F3BB22FB5098000A5B35 /* Heuristic */ = {
 			isa = PBXGroup;
 			children = (
+				DA6229042301B82A0077EAB5 /* GussingGameH.swift */,
+				DA62293B2303AD6F0077EAB5 /* WinLoseH.swift */,
 			);
 			path = Heuristic;
 			sourceTree = "<group>";
@@ -95,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				DA53F3C422FB5735000A5B35 /* GussingGame.swift */,
+				DA6229062301B8CE0077EAB5 /* MockGame.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -104,6 +141,41 @@
 			children = (
 			);
 			path = CommenModel;
+			sourceTree = "<group>";
+		};
+		DA6229292301C3B60077EAB5 /* GameTest */ = {
+			isa = PBXGroup;
+			children = (
+				DA6229452304C9D40077EAB5 /* Algorithm */,
+				DA6229442304C9C30077EAB5 /* Heuristic */,
+				DA6229432304C9B50077EAB5 /* Model */,
+				DA62292C2301C3B60077EAB5 /* Info.plist */,
+			);
+			path = GameTest;
+			sourceTree = "<group>";
+		};
+		DA6229432304C9B50077EAB5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DA62292A2301C3B60077EAB5 /* MockGameTest.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		DA6229442304C9C30077EAB5 /* Heuristic */ = {
+			isa = PBXGroup;
+			children = (
+				DA6229482305A7200077EAB5 /* WinLoadHTest.swift */,
+			);
+			path = Heuristic;
+			sourceTree = "<group>";
+		};
+		DA6229452304C9D40077EAB5 /* Algorithm */ = {
+			isa = PBXGroup;
+			children = (
+				DA62293F2304C6980077EAB5 /* MockAlgorithmTest.swift */,
+			);
+			path = Algorithm;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,6 +198,23 @@
 			productReference = DA257F6D22FB502600CD90FD /* Solver */;
 			productType = "com.apple.product-type.tool";
 		};
+		DA6229272301C3B60077EAB5 /* GameTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA62292D2301C3B60077EAB5 /* Build configuration list for PBXNativeTarget "GameTest" */;
+			buildPhases = (
+				DA6229242301C3B60077EAB5 /* Sources */,
+				DA6229252301C3B60077EAB5 /* Frameworks */,
+				DA6229262301C3B60077EAB5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GameTest;
+			productName = GameTest;
+			productReference = DA6229282301C3B60077EAB5 /* GameTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -137,6 +226,9 @@
 				ORGANIZATIONNAME = Toby;
 				TargetAttributes = {
 					DA257F6C22FB502600CD90FD = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					DA6229272301C3B60077EAB5 = {
 						CreatedOnToolsVersion = 10.3;
 					};
 				};
@@ -154,9 +246,20 @@
 			projectRoot = "";
 			targets = (
 				DA257F6C22FB502600CD90FD /* Solver */,
+				DA6229272301C3B60077EAB5 /* GameTest */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DA6229262301C3B60077EAB5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA257F6922FB502600CD90FD /* Sources */ = {
@@ -164,10 +267,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA53F3C322FB52D8000A5B35 /* PlayerMove.swift in Sources */,
+				DA62293E2304C54C0077EAB5 /* MockAlgorithm.swift in Sources */,
+				DA6229052301B82A0077EAB5 /* GussingGameH.swift in Sources */,
+				DA62293C2303AD6F0077EAB5 /* WinLoseH.swift in Sources */,
 				DA257F7122FB502600CD90FD /* main.swift in Sources */,
 				DA53F3E022FC5B67000A5B35 /* Util.swift in Sources */,
+				DA6229072301B8CE0077EAB5 /* MockGame.swift in Sources */,
 				DA53F3C522FB5735000A5B35 /* GussingGame.swift in Sources */,
 				DA53F3C122FB51A2000A5B35 /* Protocols.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA6229242301C3B60077EAB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA6229422304C9490077EAB5 /* WinLoseH.swift in Sources */,
+				DA6229412304C9430077EAB5 /* MockAlgorithm.swift in Sources */,
+				DA6229302301CA0C0077EAB5 /* GussingGame.swift in Sources */,
+				DA6229312301CA0C0077EAB5 /* MockGame.swift in Sources */,
+				DA6229322301CA0C0077EAB5 /* GussingGameH.swift in Sources */,
+				DA6229402304C6980077EAB5 /* MockAlgorithmTest.swift in Sources */,
+				DA6229332301CA0C0077EAB5 /* PlayerMove.swift in Sources */,
+				DA6229342301CA0C0077EAB5 /* Protocols.swift in Sources */,
+				DA6229492305A7200077EAB5 /* WinLoadHTest.swift in Sources */,
+				DA6229352301CA0C0077EAB5 /* Util.swift in Sources */,
+				DA62292B2301C3B60077EAB5 /* MockGameTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +432,40 @@
 			};
 			name = Release;
 		};
+		DA62292E2301C3B60077EAB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = GameTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Toby.GameTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		DA62292F2301C3B60077EAB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = GameTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Toby.GameTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -324,6 +483,15 @@
 			buildConfigurations = (
 				DA257F7522FB502600CD90FD /* Debug */,
 				DA257F7622FB502600CD90FD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA62292D2301C3B60077EAB5 /* Build configuration list for PBXNativeTarget "GameTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA62292E2301C3B60077EAB5 /* Debug */,
+				DA62292F2301C3B60077EAB5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -8,15 +8,36 @@
 
 import Foundation
 
-final class GussingGame: GameState {
+final public class GussingGame: GameState {
     
-    private(set) var player: Int = 0
+    private(set) public var player: Int = 0
+    
     let playerSymbols: [String]
+    
     var minNum: Int
+    
     var maxNum: Int
+    
     let theNum: Int
-    var numPlayer: Int {
+    
+    public var numPlayer: Int {
         return playerSymbols.count
+    }
+    
+    public var moveDescription: String{
+        return "\(minNum) - \(maxNum)"
+    }
+    
+    public var moves: [String]{
+        return Array(minNum...maxNum).map(String.init)
+    }
+    
+    public var winners: [Int]? {
+        return minNum == maxNum ? [player] : nil
+    }
+    
+    public var description: String {
+        return "\(minNum)...\(maxNum)"
     }
     
     init(playerSymbols: [String], min: Int, max: Int, num: Int) {
@@ -29,7 +50,7 @@ final class GussingGame: GameState {
         theNum = num
     }
     
-    convenience init?() {
+    public convenience init?() {
         print("Begin recording player symbols")
         print("If finished, input empty string")
         var count = 0
@@ -73,30 +94,26 @@ final class GussingGame: GameState {
         self.init(playerSymbols: Array(symbols), min: min, max: max, num: num)
     }
     
-    func playerSymbol() -> String {
+    public func playerSymbol() -> String {
         return playerSymbol(player: player)!
     }
     
-    func playerSymbol(player: Int) -> String? {
+    public func playerSymbol(player: Int) -> String? {
         return player < playerSymbols.count ? playerSymbols[player] : nil
     }
     
-    func moves() -> [String] {
-        return Array(minNum...maxNum).map(String.init)
-    }
-    
-    func isValidMove(move: String) -> Bool {
+    public func isValidMove(move: String) -> Bool {
         if let num = Int(move) {
             return num <= maxNum && num >= minNum
         }
         return false
     }
     
-    func move(move: String) -> GussingGame? {
+    public func move(move: String) -> GussingGame? {
         return self.move(player: player, move: move)
     }
     
-    func move(player: Int, move: String) -> GussingGame? {
+    public func move(player: Int, move: String) -> GussingGame? {
         if !isValidMove(move: move) || player != self.player { return nil }
         guard let num = Int(move) else { return nil }
         var max = maxNum
@@ -113,14 +130,6 @@ final class GussingGame: GameState {
                                    min: min, max: max, num: theNum)
         newState.player = (player + 1) % numPlayer
         return newState
-    }
-    
-    func winners() -> [Int]? {
-        return minNum == maxNum ? [player] : nil
-    }
-    
-    var description: String {
-        return "\(minNum)...\(maxNum)"
     }
     
 }
