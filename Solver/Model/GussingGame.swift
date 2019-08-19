@@ -8,7 +8,22 @@
 
 import Foundation
 
-final public class GussingGame: GameState {
+/// A gussing game model
+///
+/// Number of players: >0
+///
+/// Game starts with an upper bound, a lower bound, and a secret number
+///
+/// Players take turns to guess the secret number
+/// 
+/// If the guessed number is the secret number, the player wins
+///
+/// If the guessed number is lower than the secret number, 
+/// the lower bound will be set to the guessed number plus one
+///
+/// If the guessed number if higher than the secret number,
+/// the upper bound will be set to the guessed number minus one
+final public class GuessingGame: GameState {
     
     private(set) public var player: Int = 0
     
@@ -41,9 +56,9 @@ final public class GussingGame: GameState {
     }
     
     init(playerSymbols: [String], min: Int, max: Int, num: Int) {
-        precondition(!playerSymbols.isEmpty, "Number of Players must be positive")
-        precondition(min <= num, "num must be greater than or equal to min")
-        precondition(num <= max, "num must be less than or equal to max")
+        assert(!playerSymbols.isEmpty, "Number of Players must be positive")
+        assert(min <= num, "num must be greater than or equal to min")
+        assert(num <= max, "num must be less than or equal to max")
         self.playerSymbols = playerSymbols
         minNum = min
         maxNum = max
@@ -109,11 +124,11 @@ final public class GussingGame: GameState {
         return false
     }
     
-    public func move(move: String) -> GussingGame? {
+    public func move(move: String) -> GuessingGame? {
         return self.move(player: player, move: move)
     }
     
-    public func move(player: Int, move: String) -> GussingGame? {
+    public func move(player: Int, move: String) -> GuessingGame? {
         if !isValidMove(move: move) || player != self.player { return nil }
         guard let num = Int(move) else { return nil }
         var max = maxNum
@@ -126,7 +141,7 @@ final public class GussingGame: GameState {
         } else {
             max = num - 1
         }
-        let newState = GussingGame(playerSymbols: playerSymbols,
+        let newState = GuessingGame(playerSymbols: playerSymbols,
                                    min: min, max: max, num: theNum)
         newState.player = (player + 1) % numPlayer
         return newState

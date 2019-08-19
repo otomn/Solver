@@ -8,15 +8,20 @@
 
 import Foundation
 
-final public class GussingGameH: GameHeuristic{
+/// Heuristic for a GuessingGame
+/// 
+/// Score is the difference between lower bound and upper bound
+///
+/// Mainly for testing purpose
+final public class GuessingGameH: GameHeuristic{
     
-    public typealias ModelType = GussingGame
+    public typealias ModelType = GuessingGame
     
-    public func getScore(game: GussingGame, player: Int) -> Float {
+    public func getScore(game: GuessingGame, player: Int) -> Float {
         return Float(game.minNum - game.maxNum)
     }
     
-    public func isVisited(game: GussingGame) -> Bool {
+    public func isVisited(game: GuessingGame) -> Bool {
         return false
     }
     
