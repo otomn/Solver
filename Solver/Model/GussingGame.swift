@@ -133,9 +133,11 @@ final public class GuessingGame: GameState {
         guard let num = Int(move) else { return nil }
         var max = maxNum
         var min = minNum
+        var nextPlayer = (player + 1) % numPlayer
         if num == theNum {
             max = theNum
             min = theNum
+            nextPlayer -= 1
         } else if num < theNum {
             min = num + 1
         } else {
@@ -143,7 +145,7 @@ final public class GuessingGame: GameState {
         }
         let newState = GuessingGame(playerSymbols: playerSymbols,
                                    min: min, max: max, num: theNum)
-        newState.player = (player + 1) % numPlayer
+        newState.player = nextPlayer
         return newState
     }
     

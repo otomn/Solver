@@ -7,22 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DA257F7122FB502600CD90FD /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA257F7022FB502600CD90FD /* main.swift */; };
-		DA53F3C122FB51A2000A5B35 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C022FB51A2000A5B35 /* Protocols.swift */; };
-		DA53F3C322FB52D8000A5B35 /* PlayerMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C222FB52D8000A5B35 /* PlayerMove.swift */; };
-		DA53F3C522FB5735000A5B35 /* GussingGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C422FB5735000A5B35 /* GussingGame.swift */; };
-		DA53F3E022FC5B67000A5B35 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3DF22FC5B67000A5B35 /* Util.swift */; };
-		DA6229052301B82A0077EAB5 /* GussingGameH.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229042301B82A0077EAB5 /* GussingGameH.swift */; };
-		DA6229072301B8CE0077EAB5 /* MockGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229062301B8CE0077EAB5 /* MockGame.swift */; };
+		DA219F7D230D853D00C95805 /* PlayerMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C222FB52D8000A5B35 /* PlayerMove.swift */; };
+		DA219F7E230D853D00C95805 /* MockAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293D2304C54C0077EAB5 /* MockAlgorithm.swift */; };
+		DA219F7F230D853D00C95805 /* GussingGameH.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229042301B82A0077EAB5 /* GussingGameH.swift */; };
+		DA219F80230D853D00C95805 /* WinLoseH.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293B2303AD6F0077EAB5 /* WinLoseH.swift */; };
+		DA219F81230D853D00C95805 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA257F7022FB502600CD90FD /* main.swift */; };
+		DA219F82230D853D00C95805 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3DF22FC5B67000A5B35 /* Util.swift */; };
+		DA219F84230D853D00C95805 /* MockGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229062301B8CE0077EAB5 /* MockGame.swift */; };
+		DA219F85230D853D00C95805 /* GussingGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C422FB5735000A5B35 /* GussingGame.swift */; };
+		DA219F86230D853D00C95805 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C022FB51A2000A5B35 /* Protocols.swift */; };
+		DA219F97230F75CC00C95805 /* PlayerMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C222FB52D8000A5B35 /* PlayerMove.swift */; };
+		DA219F98230F780700C95805 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3DF22FC5B67000A5B35 /* Util.swift */; };
+		DA219F99230F780700C95805 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA257F7022FB502600CD90FD /* main.swift */; };
+		DA219F9D2310B63700C95805 /* GussingGameHTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA219F9C2310B63700C95805 /* GussingGameHTest.swift */; };
+		DA219F9F2310B78100C95805 /* GuessingGameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA219F9E2310B78100C95805 /* GuessingGameTest.swift */; };
 		DA62292B2301C3B60077EAB5 /* MockGameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62292A2301C3B60077EAB5 /* MockGameTest.swift */; };
 		DA6229302301CA0C0077EAB5 /* GussingGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C422FB5735000A5B35 /* GussingGame.swift */; };
 		DA6229312301CA0C0077EAB5 /* MockGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229062301B8CE0077EAB5 /* MockGame.swift */; };
 		DA6229322301CA0C0077EAB5 /* GussingGameH.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229042301B82A0077EAB5 /* GussingGameH.swift */; };
-		DA6229332301CA0C0077EAB5 /* PlayerMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C222FB52D8000A5B35 /* PlayerMove.swift */; };
 		DA6229342301CA0C0077EAB5 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C022FB51A2000A5B35 /* Protocols.swift */; };
-		DA6229352301CA0C0077EAB5 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3DF22FC5B67000A5B35 /* Util.swift */; };
-		DA62293C2303AD6F0077EAB5 /* WinLoseH.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293B2303AD6F0077EAB5 /* WinLoseH.swift */; };
-		DA62293E2304C54C0077EAB5 /* MockAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293D2304C54C0077EAB5 /* MockAlgorithm.swift */; };
 		DA6229402304C6980077EAB5 /* MockAlgorithmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293F2304C6980077EAB5 /* MockAlgorithmTest.swift */; };
 		DA6229412304C9430077EAB5 /* MockAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293D2304C54C0077EAB5 /* MockAlgorithm.swift */; };
 		DA6229422304C9490077EAB5 /* WinLoseH.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293B2303AD6F0077EAB5 /* WinLoseH.swift */; };
@@ -30,7 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		DA257F6B22FB502600CD90FD /* CopyFiles */ = {
+		DA219F88230D853D00C95805 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -42,7 +45,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		DA257F6D22FB502600CD90FD /* Solver */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Solver; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA219F8C230D853D00C95805 /* Solver */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Solver; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA219F9C2310B63700C95805 /* GussingGameHTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GussingGameHTest.swift; sourceTree = "<group>"; };
+		DA219F9E2310B78100C95805 /* GuessingGameTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessingGameTest.swift; sourceTree = "<group>"; };
 		DA257F7022FB502600CD90FD /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		DA53F3C022FB51A2000A5B35 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		DA53F3C222FB52D8000A5B35 /* PlayerMove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerMove.swift; sourceTree = "<group>"; };
@@ -60,7 +65,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		DA257F6A22FB502600CD90FD /* Frameworks */ = {
+		DA219F87230D853D00C95805 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -89,8 +94,8 @@
 		DA257F6E22FB502600CD90FD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DA257F6D22FB502600CD90FD /* Solver */,
 				DA6229282301C3B60077EAB5 /* GameTest.xctest */,
+				DA219F8C230D853D00C95805 /* Solver */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -102,9 +107,9 @@
 				DA53F3BC22FB509F000A5B35 /* Model */,
 				DA53F3BB22FB5098000A5B35 /* Heuristic */,
 				DA53F3BA22FB506F000A5B35 /* Algorithm */,
-				DA257F7022FB502600CD90FD /* main.swift */,
 				DA53F3C022FB51A2000A5B35 /* Protocols.swift */,
 				DA53F3DF22FC5B67000A5B35 /* Util.swift */,
+				DA257F7022FB502600CD90FD /* main.swift */,
 			);
 			path = Solver;
 			sourceTree = "<group>";
@@ -158,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				DA62292A2301C3B60077EAB5 /* MockGameTest.swift */,
+				DA219F9E2310B78100C95805 /* GuessingGameTest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -166,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				DA6229482305A7200077EAB5 /* WinLoadHTest.swift */,
+				DA219F9C2310B63700C95805 /* GussingGameHTest.swift */,
 			);
 			path = Heuristic;
 			sourceTree = "<group>";
@@ -181,13 +188,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DA257F6C22FB502600CD90FD /* Solver */ = {
+		DA219F7B230D853D00C95805 /* Solver */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA257F7422FB502600CD90FD /* Build configuration list for PBXNativeTarget "Solver" */;
+			buildConfigurationList = DA219F89230D853D00C95805 /* Build configuration list for PBXNativeTarget "Solver" */;
 			buildPhases = (
-				DA257F6922FB502600CD90FD /* Sources */,
-				DA257F6A22FB502600CD90FD /* Frameworks */,
-				DA257F6B22FB502600CD90FD /* CopyFiles */,
+				DA219F7C230D853D00C95805 /* Sources */,
+				DA219F87230D853D00C95805 /* Frameworks */,
+				DA219F88230D853D00C95805 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -195,7 +202,7 @@
 			);
 			name = Solver;
 			productName = Solver;
-			productReference = DA257F6D22FB502600CD90FD /* Solver */;
+			productReference = DA219F8C230D853D00C95805 /* Solver */;
 			productType = "com.apple.product-type.tool";
 		};
 		DA6229272301C3B60077EAB5 /* GameTest */ = {
@@ -225,9 +232,6 @@
 				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = Toby;
 				TargetAttributes = {
-					DA257F6C22FB502600CD90FD = {
-						CreatedOnToolsVersion = 10.3;
-					};
 					DA6229272301C3B60077EAB5 = {
 						CreatedOnToolsVersion = 10.3;
 					};
@@ -245,8 +249,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DA257F6C22FB502600CD90FD /* Solver */,
 				DA6229272301C3B60077EAB5 /* GameTest */,
+				DA219F7B230D853D00C95805 /* Solver */,
 			);
 		};
 /* End PBXProject section */
@@ -262,19 +266,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		DA257F6922FB502600CD90FD /* Sources */ = {
+		DA219F7C230D853D00C95805 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA53F3C322FB52D8000A5B35 /* PlayerMove.swift in Sources */,
-				DA62293E2304C54C0077EAB5 /* MockAlgorithm.swift in Sources */,
-				DA6229052301B82A0077EAB5 /* GussingGameH.swift in Sources */,
-				DA62293C2303AD6F0077EAB5 /* WinLoseH.swift in Sources */,
-				DA257F7122FB502600CD90FD /* main.swift in Sources */,
-				DA53F3E022FC5B67000A5B35 /* Util.swift in Sources */,
-				DA6229072301B8CE0077EAB5 /* MockGame.swift in Sources */,
-				DA53F3C522FB5735000A5B35 /* GussingGame.swift in Sources */,
-				DA53F3C122FB51A2000A5B35 /* Protocols.swift in Sources */,
+				DA219F7D230D853D00C95805 /* PlayerMove.swift in Sources */,
+				DA219F7E230D853D00C95805 /* MockAlgorithm.swift in Sources */,
+				DA219F7F230D853D00C95805 /* GussingGameH.swift in Sources */,
+				DA219F80230D853D00C95805 /* WinLoseH.swift in Sources */,
+				DA219F81230D853D00C95805 /* main.swift in Sources */,
+				DA219F82230D853D00C95805 /* Util.swift in Sources */,
+				DA219F84230D853D00C95805 /* MockGame.swift in Sources */,
+				DA219F85230D853D00C95805 /* GussingGame.swift in Sources */,
+				DA219F86230D853D00C95805 /* Protocols.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,16 +286,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA219F9F2310B78100C95805 /* GuessingGameTest.swift in Sources */,
+				DA219F98230F780700C95805 /* Util.swift in Sources */,
 				DA6229422304C9490077EAB5 /* WinLoseH.swift in Sources */,
+				DA219F9D2310B63700C95805 /* GussingGameHTest.swift in Sources */,
+				DA219F99230F780700C95805 /* main.swift in Sources */,
 				DA6229412304C9430077EAB5 /* MockAlgorithm.swift in Sources */,
 				DA6229302301CA0C0077EAB5 /* GussingGame.swift in Sources */,
+				DA219F97230F75CC00C95805 /* PlayerMove.swift in Sources */,
 				DA6229312301CA0C0077EAB5 /* MockGame.swift in Sources */,
 				DA6229322301CA0C0077EAB5 /* GussingGameH.swift in Sources */,
 				DA6229402304C6980077EAB5 /* MockAlgorithmTest.swift in Sources */,
-				DA6229332301CA0C0077EAB5 /* PlayerMove.swift in Sources */,
 				DA6229342301CA0C0077EAB5 /* Protocols.swift in Sources */,
 				DA6229492305A7200077EAB5 /* WinLoadHTest.swift in Sources */,
-				DA6229352301CA0C0077EAB5 /* Util.swift in Sources */,
 				DA62292B2301C3B60077EAB5 /* MockGameTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,6 +306,24 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		DA219F8A230D853D00C95805 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		DA219F8B230D853D00C95805 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		DA257F7222FB502600CD90FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -414,24 +439,6 @@
 			};
 			name = Release;
 		};
-		DA257F7522FB502600CD90FD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		DA257F7622FB502600CD90FD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		DA62292E2301C3B60077EAB5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -469,20 +476,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DA219F89230D853D00C95805 /* Build configuration list for PBXNativeTarget "Solver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA219F8A230D853D00C95805 /* Debug */,
+				DA219F8B230D853D00C95805 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DA257F6822FB502600CD90FD /* Build configuration list for PBXProject "Solver" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DA257F7222FB502600CD90FD /* Debug */,
 				DA257F7322FB502600CD90FD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DA257F7422FB502600CD90FD /* Build configuration list for PBXNativeTarget "Solver" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DA257F7522FB502600CD90FD /* Debug */,
-				DA257F7622FB502600CD90FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

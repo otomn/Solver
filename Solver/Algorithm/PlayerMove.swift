@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Ask the user to make a move through standard input
 final class PlayerMove: GameAlgorithm{
     
     init?(game: GameState) { }
