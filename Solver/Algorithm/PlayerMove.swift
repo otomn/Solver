@@ -11,8 +11,6 @@ import Foundation
 /// Ask the user to make a move through standard input
 final class PlayerMove: GameAlgorithm{
     
-    init?(game: GameState) { }
-    
     init?(game: GameState, input: () -> String?) { }
     
     func makeMove<T>(_ game: T) -> T? where T : GameState {

@@ -26,10 +26,6 @@ public protocol GameState: CustomStringConvertible {
     /// A list of winners if the game state is at and end state, nil otherwise
     var winners: [Int]? {get}
     
-    /// Setup the game via user input through the input stream
-    /// Returns nil if error encountered
-    init?()
-    
     /// Setup the game via provided input steam
     ///
     /// - Parameter input: Source of input
@@ -87,12 +83,6 @@ public protocol GameHeuristic {
 
 /// An algorithm that can play the game
 public protocol GameAlgorithm{
-    
-    /// Setup the algorithm via user input through the input stream. 
-    /// Returns nil if error encountered
-    ///
-    /// - Parameter game: The game this algorithm will be used on
-    init?(game: GameState)
     
     // Setup the algorithm via user input through provided input stream
     /// Returns nil if error encountered

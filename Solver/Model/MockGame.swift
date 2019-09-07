@@ -33,10 +33,6 @@ public final class MockGame: GameState{
     var states: [State]
     var moveCount: Int = 0
     
-    public init?(){
-        return nil
-    }
-    
     public init?(input: () -> String?){
         return nil
     }

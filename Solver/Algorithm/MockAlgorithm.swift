@@ -17,10 +17,6 @@ public final class MockAlgorithm: GameAlgorithm{
     var moveCount = 0
     var moves: [String]
     
-    public init?(game: GameState) {
-        return nil
-    }
-    
     public init?(game: GameState, input: () -> String?) {
         return nil
     }

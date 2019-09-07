@@ -34,7 +34,7 @@ class Main{
             parser: findClass,
             terminateCondition: pure2(true) ).first else { return }
         
-        guard var game = gameType.init() else { return }
+        guard var game = gameType.init(input: { readLine() }) else { return }
         
         let algorithmTypes: [GameAlgorithm.Type] = getInput(
             prompt: pure1("Please type an algorithm name: "),
@@ -42,7 +42,7 @@ class Main{
             parser: findClass,
             terminateCondition: { _, result in return result.count == game.numPlayer } )
         
-        let algorithms = algorithmTypes.compactMap{ $0.init(game: game) }
+        let algorithms = algorithmTypes.compactMap{ $0.init(game: game, input: { readLine() }) }
         if algorithmTypes.count != game.numPlayer { return }
         
         while true {

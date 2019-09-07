@@ -62,10 +62,6 @@ final public class GuessingGame: GameState {
         theNum = num
     }
     
-    public convenience init?() {
-        self.init(input: { readLine() })
-    }
-    
     public convenience init?(input: () -> String?) {
         print("Begin recording player symbols")
         print("If finished, input empty string")
