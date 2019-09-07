@@ -178,9 +178,9 @@ CustomStringConvertible, Equatable, Collection where Rawtype:UnsignedInteger{
         return lhs.rawValue == rhs.rawValue
     }
     
-    public subscript(bit: Int) -> UInt {
+    public subscript(bit: Int) -> Rawtype {
         get {
-            return UInt((rawValue & getMask(bit: bit)) >> (bit * itemSizeInt))
+            return Rawtype((rawValue & getMask(bit: bit)) >> (bit * itemSizeInt))
         }
         set (item){
             rawValue = rawValue & ~getMask(bit: bit) | itemShift(bit: bit, item: item)
@@ -203,21 +203,10 @@ CustomStringConvertible, Equatable, Collection where Rawtype:UnsignedInteger{
         // ((1 << itemSize) - 1) << (bit * itemSize) = 1100
     }
     
-    private func itemShift(bit: Int, item: UInt) -> Rawtype{
+    private func itemShift(bit: Int, item: Rawtype) -> Rawtype{
         precondition(bit < bitWidth)
         precondition(bit >= 0)
         return (Rawtype(item) & ((1 << itemSize) - 1)) << (bit * itemSizeInt)
-    }
-    
-}
-
-
-public struct BitListf<Rawtype: FixedWidthInteger> where Rawtype:UnsignedInteger{
-    
-    public var rawValue: Rawtype
-    
-    public init() {
-        rawValue = 0
     }
     
 }

@@ -37,6 +37,10 @@ public final class MockGame: GameState{
         return nil
     }
     
+    public init?(input: () -> String?){
+        return nil
+    }
+    
     public init(numPlayer: Int, states: [State]){
         self.numPlayer = numPlayer
         self.states = states

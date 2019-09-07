@@ -126,3 +126,14 @@ func pure1<T>(_ val: T) -> (Any) -> T{
 func pure2<T>(_ val: T) -> (Any, Any) -> T{
     return { _, _ in val}
 }
+
+/// Return and remove the first element of the array
+///
+/// - Parameter array: Source array
+/// - Returns: First element
+func popFirst<T>(array: inout [T]) -> T?{
+    defer {
+        array.removeFirst()
+    }
+    return array.first
+}

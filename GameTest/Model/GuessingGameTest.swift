@@ -25,6 +25,22 @@ class GuessingGameTest: XCTestCase {
         XCTAssertEqual(state.playerSymbol(), "b")
     }
     
+    func testInit(){
+        var input = [
+            "a", "b", "", // player sysmbol
+            "0", "100", "50" // min, max, goal
+        ]
+        guard let state = GuessingGame(input: { popFirst(array: &input) }) else {
+            XCTFail()
+            return
+        }
+        XCTAssertEqual(state.minNum, 0)
+        XCTAssertEqual(state.maxNum, 100)
+        XCTAssertEqual(state.theNum, 50)
+        XCTAssertEqual(state.playerSymbols, ["a", "b"])
+        XCTAssertEqual(state.numPlayer, 2)
+    }
+    
     func testMoves() {
         let state = GuessingGame(playerSymbols: ["a", "b"], min: 0, max: 100, num: 50)
         XCTAssertNil(state.move(move: "-1"))

@@ -25,7 +25,6 @@ class GussingGameHTest: XCTestCase {
         super.tearDown()
     }
     
-    
     /// Build a game state for testing
     ///
     /// - Parameters:

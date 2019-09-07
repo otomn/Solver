@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Solver/CommenModel/BitUtil.swift"
-            timestampString = "589512395.706205"
+            timestampString = "589516288.678439"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
             landmarkName = "BitList"
             landmarkType = "14">
          </BreakpointContent>

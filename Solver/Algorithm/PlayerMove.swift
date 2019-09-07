@@ -13,6 +13,8 @@ final class PlayerMove: GameAlgorithm{
     
     init?(game: GameState) { }
     
+    init?(game: GameState, input: () -> String?) { }
+    
     func makeMove<T>(_ game: T) -> T? where T : GameState {
         return makeMove(game as GameState) as! T?
     }

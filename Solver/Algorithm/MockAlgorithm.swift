@@ -21,6 +21,10 @@ public final class MockAlgorithm: GameAlgorithm{
         return nil
     }
     
+    public init?(game: GameState, input: () -> String?) {
+        return nil
+    }
+    
     public init(moves: [String]) {
         self.moves = moves
     }

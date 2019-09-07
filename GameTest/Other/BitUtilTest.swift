@@ -50,8 +50,8 @@ class BitUtilTest: XCTestCase {
         var bl = bitList
         let lb = 0
         let hb = bl.bitWidth - 1
-        let ln: UInt = 1
-        let hn: UInt = (1 << bl.itemSize) - 1
+        let ln: I = 1
+        let hn: I = (1 << bl.itemSize) - 1
         
         // test initial all false
         bl.forEach{ XCTAssertEqual($0, 0) }

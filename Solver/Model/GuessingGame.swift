@@ -10,7 +10,7 @@ import Foundation
 
 /// A gussing game model
 ///
-/// Number of players: >0
+/// Number of players: > 0
 ///
 /// Game starts with an upper bound, a lower bound, and a secret number
 ///
@@ -63,13 +63,19 @@ final public class GuessingGame: GameState {
     }
     
     public convenience init?() {
+        self.init(input: { readLine() })
+    }
+    
+    public convenience init?(input: () -> String?) {
         print("Begin recording player symbols")
         print("If finished, input empty string")
         let symbols = getInput(
             prompt: { return "Please type symbol for player \($0.count + 1): " },
             failedMessage: "",
             parser: pure,
-            terminateCondition: {input, _ in input.isEmpty }).dropLast()
+            terminateCondition: {input, _ in input.isEmpty },
+            inputStream: input
+            ).dropLast()
         if symbols.isEmpty {
             print("No enough players")
             return nil
@@ -78,7 +84,9 @@ final public class GuessingGame: GameState {
             prompt: pure1("Minimum number: "),
             failedMessage: "Must be an integer",
             parser: Int.init,
-            terminateCondition: pure2(true)).first else { return nil }
+            terminateCondition: pure2(true),
+            inputStream: input
+            ).first else { return nil }
         guard let max: Int = getInput(
             prompt: pure1("Maximum number: "),
             failedMessage: "Must be an interger greater than \(min)",
@@ -88,7 +96,9 @@ final public class GuessingGame: GameState {
                 }
                 return nil
             },
-            terminateCondition: pure2(true)).first else { return nil }
+            terminateCondition: pure2(true),
+            inputStream: input
+            ).first else { return nil }
         guard let num: Int = getInput(
             prompt: pure1("The goal number: "),
             failedMessage: "Must be an interger between \(min) and \(max)",
@@ -98,7 +108,9 @@ final public class GuessingGame: GameState {
                 }
                 return nil
             },
-            terminateCondition: pure2(true)).first else { return nil }
+            terminateCondition: pure2(true),
+            inputStream: input
+            ).first else { return nil }
         self.init(playerSymbols: Array(symbols), min: min, max: max, num: num)
     }
     
