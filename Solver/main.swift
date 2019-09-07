@@ -29,22 +29,18 @@ class Main{
     static func startGame(){
         
         guard let gameType: GameState.Type = getInput(
-            prompt: pure0("Please type a game name: "),
+            prompt: pure1("Please type a game name: "),
             failedMessage: "Cannot find the game",
             parser: findClass,
-            terminateCondition: pure1(true) ).first else { return }
+            terminateCondition: pure2(true) ).first else { return }
         
         guard var game = gameType.init() else { return }
         
-        var count = 0
         let algorithmTypes: [GameAlgorithm.Type] = getInput(
-            prompt: pure0("Please type an algorithm name: "),
+            prompt: pure1("Please type an algorithm name: "),
             failedMessage: "Cannot find the algorithm",
             parser: findClass,
-            terminateCondition: { _ in
-                count += 1
-                return count == game.numPlayer
-        } )
+            terminateCondition: { _, result in return result.count == game.numPlayer } )
         
         let algorithms = algorithmTypes.compactMap{ $0.init(game: game) }
         if algorithmTypes.count != game.numPlayer { return }
@@ -54,7 +50,7 @@ class Main{
                 if winners.isEmpty {
                     print("Game end with no winner")
                 } else if winners.count == 1 {
-                    print("The winner is \(winners[0])")
+                    print("The winner is \(game.playerSymbol(player: winners[0])!)")
                 } else {
                     print(winners.reduce("The winners are", { 
                         $0 + " \(game.playerSymbol(player: $1)!)" }))

@@ -19,13 +19,13 @@ final class PlayerMove: GameAlgorithm{
     
     func makeMove(_ game: GameState) -> GameState? {
         if let move = getInput(
-            prompt: { """
+            prompt: pure1("""
             \(game.moveDescription)
             \(game.playerSymbol()) move: 
-            """ } ,
+            """) ,
             failedMessage: "Invalid move",
             parser: { game.isValidMove(move: $0) ? $0 : nil },
-            terminateCondition: pure1(true)
+            terminateCondition: pure2(true)
             ).first {
             return game.move(move: move)
         }

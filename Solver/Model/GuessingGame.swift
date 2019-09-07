@@ -48,7 +48,7 @@ final public class GuessingGame: GameState {
     }
     
     public var winners: [Int]? {
-        return minNum == maxNum ? [player] : nil
+        return minNum > maxNum ? [player] : nil
     }
     
     public var description: String {
@@ -56,9 +56,6 @@ final public class GuessingGame: GameState {
     }
     
     init(playerSymbols: [String], min: Int, max: Int, num: Int) {
-        assert(!playerSymbols.isEmpty, "Number of Players must be positive")
-        assert(min <= num, "num must be greater than or equal to min")
-        assert(num <= max, "num must be less than or equal to max")
         self.playerSymbols = playerSymbols
         minNum = min
         maxNum = max
@@ -68,26 +65,22 @@ final public class GuessingGame: GameState {
     public convenience init?() {
         print("Begin recording player symbols")
         print("If finished, input empty string")
-        var count = 0
         let symbols = getInput(
-            prompt: {
-                count += 1
-                return "Please type symbol for player \(count): "
-            },
+            prompt: { return "Please type symbol for player \($0.count + 1): " },
             failedMessage: "",
             parser: pure,
-            terminateCondition: { $0.isEmpty }).dropLast()
+            terminateCondition: {input, _ in input.isEmpty }).dropLast()
         if symbols.isEmpty {
             print("No enough players")
             return nil
         }
         guard let min = getInput(
-            prompt: pure0("Minimum number: "),
+            prompt: pure1("Minimum number: "),
             failedMessage: "Must be an integer",
             parser: Int.init,
-            terminateCondition: pure1(true)).first else { return nil }
+            terminateCondition: pure2(true)).first else { return nil }
         guard let max: Int = getInput(
-            prompt: pure0("Maximum number: "),
+            prompt: pure1("Maximum number: "),
             failedMessage: "Must be an interger greater than \(min)",
             parser: {
                 if let i = Int($0) {
@@ -95,9 +88,9 @@ final public class GuessingGame: GameState {
                 }
                 return nil
             },
-            terminateCondition: pure1(true)).first else { return nil }
+            terminateCondition: pure2(true)).first else { return nil }
         guard let num: Int = getInput(
-            prompt: pure0("The goal number: "),
+            prompt: pure1("The goal number: "),
             failedMessage: "Must be an interger between \(min) and \(max)",
             parser: {
                 if let i = Int($0) {
@@ -105,7 +98,7 @@ final public class GuessingGame: GameState {
                 }
                 return nil
             },
-            terminateCondition: pure1(true)).first else { return nil }
+            terminateCondition: pure2(true)).first else { return nil }
         self.init(playerSymbols: Array(symbols), min: min, max: max, num: num)
     }
     
@@ -135,8 +128,8 @@ final public class GuessingGame: GameState {
         var min = minNum
         var nextPlayer = (player + 1) % numPlayer
         if num == theNum {
-            max = theNum
-            min = theNum
+            max = theNum - 1
+            min = theNum + 1
             nextPlayer -= 1
         } else if num < theNum {
             min = num + 1

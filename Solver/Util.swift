@@ -14,10 +14,10 @@ import Foundation
 ///
 /// ```
 /// var lst = getInput(
-///     prompt: "Type an integer please: ",
+///     prompt: { _ in return "Type an integer please: " },
 ///     failedMessage: "That is not an integer",
 ///     parser: Int.init,
-///     termniateCondition: pure1(true)
+///     termniateCondition: pure2(true)
 ///     )
 /// ```
 ///    
@@ -43,35 +43,35 @@ import Foundation
 ///
 ///   `Type an integer please: 5`
 ///
-///   `lst` will not have value `[5]`.
+///   `lst` will now have value `[5]`.
 ///
 /// - If the input stream is closed unexpectedly, 
 ///   `getInput` will return with all the valid
 ///   results it has received, meaning the program could return with `[]`
 ///
 /// - parameters:
-///   - prompt: A string that will be printed that asks for user input
+///   - prompt: A function that takes parsed results and return a prompt for user input
 ///   - failedMessage: A string that will be printed if parse failed
-///   - parser: A function that can parse `T` from a string, return nil if failed
-///   - terminateCondition: A function that takes the parsed string and returns whether 
+///   - parser: A function that can parse `T` from a string, return `nil` if failed
+///   - terminateCondition: A function that takes the input string and parsed resulta and returns whether 
 ///     `getInput` should return
 /// - returns: A list of parsed result
-func getInput<T>(prompt: () -> String, 
+func getInput<T>(prompt: ([T]) -> String, 
                  failedMessage: String, 
-                 parser parse:(String) -> T?,
-                 terminateCondition:(String) -> Bool, 
+                 parser parse: (String) -> T?,
+                 terminateCondition: (String, [T]) -> Bool, 
                  inputStream: () -> String? = { readLine() }
     ) -> [T]{
     var result: [T] = []
     while true{
-        print(prompt(), terminator: "")
+        print(prompt(result), terminator: "")
         guard let input = inputStream() else {
             print("Input stream closed")
             return result
         }
         if let parsed = parse(input) {
             result.append(parsed)
-            if terminateCondition(input) {
+            if terminateCondition(input, result) {
                 return result
             }
         } else {
@@ -112,4 +112,17 @@ func pure0<T>(_ val: T) -> () -> T{
 /// - Returns: A function that takes 1 input and returns `val`
 func pure1<T>(_ val: T) -> (Any) -> T{
     return { _ in val}
+}
+
+/// Returns a function that takes 2 input and returns `val`
+///
+/// ```
+/// var p = pure(5)
+/// print(p(0, 1)) // prints 5
+/// ```
+///
+/// - Parameter val: The value where the returned function will return
+/// - Returns: A function that takes 1 input and returns `val`
+func pure2<T>(_ val: T) -> (Any, Any) -> T{
+    return { _, _ in val}
 }
