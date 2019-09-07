@@ -132,8 +132,6 @@ func pure2<T>(_ val: T) -> (Any, Any) -> T{
 /// - Parameter array: Source array
 /// - Returns: First element
 func popFirst<T>(array: inout [T]) -> T?{
-    defer {
-        array.removeFirst()
-    }
-    return array.first
+    if array.isEmpty { return nil }
+    return array.removeFirst()
 }

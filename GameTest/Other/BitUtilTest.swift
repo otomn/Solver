@@ -28,6 +28,10 @@ class BitUtilTest: XCTestCase {
             XCTAssertEqual(bmp[i], false)
         }
         
+        // test UInt index
+        XCTAssertEqual(bmp[UInt16(lb)], true)
+        XCTAssertEqual(bmp[UInt16(hb)], true)
+        
         // test unset bit
         for i in lb...hb {
             bmp[i] = false
@@ -44,6 +48,13 @@ class BitUtilTest: XCTestCase {
         newBmp[hb] = false
         XCTAssertEqual(bmp[hb], true)
         XCTAssertEqual(newBmp[hb], false)
+        XCTAssertNotEqual(bmp, newBmp)
+        
+        // test equal
+        var eqBmp = T()
+        eqBmp[lb] = true
+        eqBmp[hb] = true
+        XCTAssertEqual(bmp, eqBmp)
     }
     
     func listTest<I: FixedWidthInteger>(bitList: BitList<I>) {
@@ -53,7 +64,7 @@ class BitUtilTest: XCTestCase {
         let ln: I = 1
         let hn: I = (1 << bl.itemSize) - 1
         
-        // test initial all false
+        // test initial all 0
         bl.forEach{ XCTAssertEqual($0, 0) }
         
         // test set bit
@@ -62,6 +73,12 @@ class BitUtilTest: XCTestCase {
         XCTAssertEqual(bl[lb], hn)
         XCTAssertEqual(bl[hb], ln)
         bl[(lb + 1)...(hb - 1)].forEach{ XCTAssertEqual($0, 0) }
+        
+        // test set UInt
+        bl[UInt8(0)] = UInt8(0)
+        bl[UInt8(min(15, hb))] = UInt8(min(15, hn))
+        XCTAssertEqual(bl[0], 0)
+        XCTAssertEqual(bl[min(15, hb)], min(15, hn))
         
         // test unset bit
         for i in lb...hb {
@@ -77,6 +94,13 @@ class BitUtilTest: XCTestCase {
         newBl[hb] = hn
         XCTAssertEqual(bl[hb], ln)
         XCTAssertEqual(newBl[hb], hn)
+        XCTAssertNotEqual(newBl, bl)
+        
+        // test equal
+        var eqbl = BitList<I>(itemSize: bl.itemSize)
+        eqbl[lb] = hn
+        eqbl[hb] = ln
+        XCTAssertEqual(eqbl, bl)
     }
     
     func testBitmapInt8() {
@@ -115,6 +139,7 @@ class BitUtilTest: XCTestCase {
         bl[0] = 2
         bl[3] = 3
         XCTAssertEqual(bl.rawValue, (3 << (2 * 3)) + 2)
+        XCTAssertLessThanOrEqual(MemoryLayout.size(ofValue: bl), 2)
     }
     
     func testBitList64() {
@@ -125,6 +150,7 @@ class BitUtilTest: XCTestCase {
         bl[0] = 1
         bl[7] = 11
         XCTAssertEqual(bl.rawValue, (11 << (8 * 7)) + 1)
+        XCTAssertLessThanOrEqual(MemoryLayout.size(ofValue: bl), 16)
     }
 
 }

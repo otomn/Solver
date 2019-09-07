@@ -27,6 +27,7 @@
 		DA219FA12310BEF600C95805 /* Pyraminx.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA219FA02310BEF600C95805 /* Pyraminx.swift */; };
 		DA219FA32310D0DB00C95805 /* BitUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA219FA22310D0DB00C95805 /* BitUtil.swift */; };
 		DA344B0C2323333200DCDC15 /* PyraminxTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA344B0B2323333200DCDC15 /* PyraminxTest.swift */; };
+		DA344B0E23243DCA00DCDC15 /* PyraminxUtilTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA344B0D23243DCA00DCDC15 /* PyraminxUtilTest.swift */; };
 		DA62292B2301C3B60077EAB5 /* MockGameTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62292A2301C3B60077EAB5 /* MockGameTest.swift */; };
 		DA6229302301CA0C0077EAB5 /* GuessingGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53F3C422FB5735000A5B35 /* GuessingGame.swift */; };
 		DA6229312301CA0C0077EAB5 /* MockGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229062301B8CE0077EAB5 /* MockGame.swift */; };
@@ -59,6 +60,7 @@
 		DA219FA22310D0DB00C95805 /* BitUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitUtil.swift; sourceTree = "<group>"; };
 		DA257F7022FB502600CD90FD /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		DA344B0B2323333200DCDC15 /* PyraminxTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PyraminxTest.swift; sourceTree = "<group>"; };
+		DA344B0D23243DCA00DCDC15 /* PyraminxUtilTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PyraminxUtilTest.swift; sourceTree = "<group>"; };
 		DA53F3C022FB51A2000A5B35 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		DA53F3C222FB52D8000A5B35 /* PlayerMove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerMove.swift; sourceTree = "<group>"; };
 		DA53F3C422FB5735000A5B35 /* GuessingGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessingGame.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				DA62292A2301C3B60077EAB5 /* MockGameTest.swift */,
 				DA219F9E2310B78100C95805 /* GuessingGameTest.swift */,
 				DA344B0B2323333200DCDC15 /* PyraminxTest.swift */,
+				DA344B0D23243DCA00DCDC15 /* PyraminxUtilTest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				DA219F99230F780700C95805 /* main.swift in Sources */,
 				DA17551B23117ADA00EEA8F4 /* BitUtil.swift in Sources */,
 				DA6229412304C9430077EAB5 /* MockAlgorithm.swift in Sources */,
+				DA344B0E23243DCA00DCDC15 /* PyraminxUtilTest.swift in Sources */,
 				DA6229302301CA0C0077EAB5 /* GuessingGame.swift in Sources */,
 				DA219F97230F75CC00C95805 /* PlayerMove.swift in Sources */,
 				DA6229312301CA0C0077EAB5 /* MockGame.swift in Sources */,

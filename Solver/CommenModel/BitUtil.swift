@@ -14,7 +14,7 @@ public protocol Bitmap: CustomStringConvertible, Equatable {
     /// Get / set a bit
     ///
     /// - Parameter bit: offset bit
-    subscript(bit: Int) -> Bool { get set }
+    subscript<A: BinaryInteger>(bit: A) -> Bool { get set }
     
     /// size of the Bitmap
     var bitWidth: Int {get}
@@ -52,7 +52,7 @@ public struct BitmapInt<Rawtype: FixedWidthInteger>: Bitmap
         return lhs.rawValue == rhs.rawValue
     }
     
-    public subscript(bit: Int) -> Bool {
+    public subscript<A: BinaryInteger>(bit: A) -> Bool {
         get {
             return rawValue & getMask(bit: bit) != 0
         }
@@ -69,7 +69,7 @@ public struct BitmapInt<Rawtype: FixedWidthInteger>: Bitmap
     ///
     /// - Parameter bit: Bit offset
     /// - Returns: Bit mask
-    private func getMask(bit: Int) -> Rawtype {
+    private func getMask<A: BinaryInteger>(bit: A) -> Rawtype {
         precondition(bit < bitWidth)
         precondition(bit >= 0)
         return 1 << bit
@@ -102,7 +102,7 @@ public final class BitmapList<Rawtype: FixedWidthInteger>: Bitmap
         return lhs.rawValue == rhs.rawValue
     }
     
-    public subscript(bit: Int) -> Bool {
+    public subscript<A: BinaryInteger>(bit: A) -> Bool {
         get {
             if bit >= bitWidth { return false }
             let (index, mask) = getMask(bit: bit)
@@ -126,9 +126,9 @@ public final class BitmapList<Rawtype: FixedWidthInteger>: Bitmap
     ///
     /// - Parameter bit: Bit offset
     /// - Returns: Array offset and bit mask
-    private func getMask(bit: Int) -> (index: Int, mask: Rawtype) {
+    private func getMask<A: BinaryInteger>(bit: A) -> (index: Int, mask: Rawtype) {
         precondition(bit >= 0)
-        return (bit / Rawtype.bitWidth, 1 << (bit % Rawtype.bitWidth))
+        return (Int(bit) / Rawtype.bitWidth, 1 << (Int(bit) % Rawtype.bitWidth))
     }
     
 }
@@ -139,10 +139,6 @@ CustomStringConvertible, Equatable, Collection where Rawtype:UnsignedInteger{
     
     public var itemSize: UInt8
     public var rawValue: Rawtype
-    
-    public var itemSizeInt: Int {
-        return Int(itemSize)
-    }
     
     public var startIndex: Int {
         return 0
@@ -157,7 +153,7 @@ CustomStringConvertible, Equatable, Collection where Rawtype:UnsignedInteger{
     }
     
     public var bitWidth: Int {
-        return Rawtype.bitWidth / itemSizeInt
+        return Rawtype.bitWidth / Int(itemSize)
     }
     
     public var description: String {
@@ -174,27 +170,43 @@ CustomStringConvertible, Equatable, Collection where Rawtype:UnsignedInteger{
         itemSize = source.itemSize
     }
     
+    public init<A: BinaryInteger>(itemSize: UInt8, source: [A]){
+        self.init(itemSize: itemSize)
+        for i in 0..<source.count {
+            self[i] = source[i]
+        }
+    }
+    
     public static func == (lhs: BitList<Rawtype>, rhs: BitList<Rawtype>) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
     
     public subscript(bit: Int) -> Rawtype {
-        get {
-            return Rawtype((rawValue & getMask(bit: bit)) >> (bit * itemSizeInt))
-        }
-        set (item){
-            rawValue = rawValue & ~getMask(bit: bit) | itemShift(bit: bit, item: item)
-        }
+        get { return get(bit: bit) }
+        set { set(bit: bit, item: newValue) }
+    }
+    
+    public subscript<A: BinaryInteger, B: BinaryInteger>(bit: A) -> B {
+        get { return get(bit: bit) }
+        set { set(bit: bit, item: newValue) }
+    }
+    
+    private func get<A: BinaryInteger, B: BinaryInteger>(bit: A) -> B {
+        return B((rawValue & getMask(bit: bit)) >> (bit * A(itemSize)))
+    }
+    
+    private mutating func set<A: BinaryInteger, B: BinaryInteger>(bit: A, item: B){
+        rawValue = rawValue & ~getMask(bit: bit) | itemShift(bit: bit, item: item)
     }
     
     /// Check if bit is valide, return the bit mask
     ///
     /// - Parameter bit: Bit offset
     /// - Returns: Bit mask
-    private func getMask(bit: Int) -> Rawtype {
+    private func getMask<A: BinaryInteger>(bit: A) -> Rawtype {
         precondition(bit < bitWidth)
         precondition(bit >= 0)
-        return ((1 << itemSize) - 1) << (bit * itemSizeInt) 
+        return ((1 << itemSize) - 1) << (bit * A(itemSize)) 
         // itemSize                                  = 2
         // bit                                       = 1
         // bit * itemSize                            = 2
@@ -203,10 +215,10 @@ CustomStringConvertible, Equatable, Collection where Rawtype:UnsignedInteger{
         // ((1 << itemSize) - 1) << (bit * itemSize) = 1100
     }
     
-    private func itemShift(bit: Int, item: Rawtype) -> Rawtype{
+    private func itemShift<A: BinaryInteger, B: BinaryInteger>(bit: B, item: A) -> Rawtype{
         precondition(bit < bitWidth)
         precondition(bit >= 0)
-        return (Rawtype(item) & ((1 << itemSize) - 1)) << (bit * itemSizeInt)
+        return (Rawtype(item) & ((1 << itemSize) - 1)) << (bit * B(itemSize))
     }
     
 }
