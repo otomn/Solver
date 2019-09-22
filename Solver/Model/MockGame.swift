@@ -19,9 +19,6 @@ public final class MockGame: GameState{
     public var description: String {
         return "\(states[moveCount])"
     }
-    public var moveDescription: String {
-        return "\(moves)"
-    }
     public var moves: [String] {
         return states[moveCount].moves
     }
@@ -44,18 +41,6 @@ public final class MockGame: GameState{
     
     public func playerSymbol(player: Int) -> String? {
         return "Player \(player)"
-    }
-    
-    public func playerSymbol() -> String {
-        return playerSymbol(player: player)!
-    }
-    
-    public func isValidMove(move: String) -> Bool {
-        return moves.contains(move)
-    }
-    
-    public func move(move: String) -> MockGame? {
-        return self.move(player: player, move: move)
     }
     
     public func move(player: Int, move: String) -> MockGame? {

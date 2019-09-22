@@ -110,10 +110,6 @@ final public class GuessingGame: GameState {
         self.init(playerSymbols: Array(symbols), min: min, max: max, num: num)
     }
     
-    public func playerSymbol() -> String {
-        return playerSymbol(player: player)!
-    }
-    
     public func playerSymbol(player: Int) -> String? {
         return player < playerSymbols.count ? playerSymbols[player] : nil
     }
@@ -123,10 +119,6 @@ final public class GuessingGame: GameState {
             return num <= maxNum && num >= minNum
         }
         return false
-    }
-    
-    public func move(move: String) -> GuessingGame? {
-        return self.move(player: player, move: move)
     }
     
     public func move(player: Int, move: String) -> GuessingGame? {

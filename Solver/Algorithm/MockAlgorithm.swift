@@ -21,12 +21,12 @@ public final class MockAlgorithm: GameAlgorithm{
         return nil
     }
     
-    public init(moves: [String]) {
-        self.moves = moves
+    public init(game: GameState, heuristic: GameHeuristic) {
+        moves = []
     }
     
-    public func makeMove<T>(_ game: T) -> T? where T : GameState {
-        return makeMove(game as GameState) as! T?
+    public init(moves: [String]) {
+        self.moves = moves
     }
     
     public func makeMove(_ game: GameState) -> GameState? {

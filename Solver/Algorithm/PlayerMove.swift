@@ -11,10 +11,12 @@ import Foundation
 /// Ask the user to make a move through standard input
 final class PlayerMove: GameAlgorithm{
     
+    var heuristic: GameHeuristic?
+    
     init?(game: GameState, input: () -> String?) { }
     
-    func makeMove<T>(_ game: T) -> T? where T : GameState {
-        return makeMove(game as GameState) as! T?
+    init(game: GameState, heuristic: GameHeuristic) {
+        self.heuristic = heuristic
     }
     
     func makeMove(_ game: GameState) -> GameState? {

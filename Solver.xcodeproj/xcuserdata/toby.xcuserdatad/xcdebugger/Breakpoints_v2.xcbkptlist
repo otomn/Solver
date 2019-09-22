@@ -2,4 +2,54 @@
 <Bucket
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Solver/Heuristic/PyraminxManhattanH.swift"
+            timestampString = "589918354.22411"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "getScore(game:player:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Solver.PyraminxManhattanH.getScore(game: Solver.Pyraminx, player: Swift.Int) -&gt; Swift.Float"
+                  moduleName = "Solver"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/toby/Desktop/Projects/Solver/Solver/Heuristic/PyraminxManhattanH.swift"
+                  timestampString = "589606634.8471"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "55">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Float, Solver.Face) -&gt; Swift.Float in Solver.PyraminxManhattanH.getScore(game: Solver.Pyraminx, player: Swift.Int) -&gt; Swift.Float"
+                  moduleName = "Solver"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/toby/Desktop/Projects/Solver/Solver/Heuristic/PyraminxManhattanH.swift"
+                  timestampString = "589606634.848464"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "59">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

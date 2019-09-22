@@ -37,22 +37,11 @@ public protocol GameState: CustomStringConvertible {
     /// - Returns: Symbol representing the player
     func playerSymbol(player: Int) -> String?
     
-    /// Get the symbol representing the current player
-    ///
-    /// - Returns: Symbole representing the current player
-    func playerSymbol() -> String
-    
     /// Check whether the string is a valid move for the current state
     ///
     /// - Parameter move: A string representing a move
     /// - Returns: True iff `move` string is valid for the current state
     func isValidMove(move: String) -> Bool
-    
-    /// Generate a new state from the current state according to the move specified
-    ///
-    /// - Parameter move: A string representing a move
-    /// - Returns: The state after the move, nil if the move is invalid
-    func move(move: String) -> Self?
     
     /// Generate a new state from the current state 
     /// according to the move and the player specified
@@ -65,12 +54,38 @@ public protocol GameState: CustomStringConvertible {
     func move(player: Int, move: String) -> Self?
 }
 
+public extension GameState {
+    
+    /// Description of the moves the current player can make
+    var moveDescription: String {
+        return moves.description
+    }
+    
+    /// Get the symbol representing the current player
+    ///
+    /// - Returns: Symbole representing the current player
+    func playerSymbol() -> String{
+        return playerSymbol(player: player)!
+    } 
+    
+    /// Generate a new state from the current state according to the move specified
+    ///
+    /// - Parameter move: A string representing a move
+    /// - Returns: The state after the move, nil if the move is invalid
+    func move(move: String) -> Self?{
+        return self.move(player: player, move: move)
+    }
+    
+    func isValidMove(move: String) -> Bool{
+        return moves.contains(move)
+    }
+}
+
 /// Generates heuristics of GameStates for GameAlgorithms to use
 public protocol GameHeuristic {
     
-    // TODO: Make this GameState
-    /// The type of game this heuristic is designed for
-    associatedtype ModelType
+    /// True if this heuristic can support multiple threading access
+    var supportMulThread: Bool {get}
     
     /// Generate a score of the current state for the player, the higher the better
     ///
@@ -78,7 +93,21 @@ public protocol GameHeuristic {
     ///   - game: Game state to evaluate
     ///   - player: The player contect
     /// - Returns: A score of the current state for the player
-    func getScore(game: ModelType, player: Int) -> Float
+    func getScore(game: GameState, player: Int) -> Float
+    
+    func isVisited(uid: [UInt64]) -> Bool
+    
+    func visit(uid: [UInt64]) -> Bool
+    
+    func getUid(game: GameState) -> [UInt64]
+    
+    init?(game: GameState)
+}
+
+public extension GameHeuristic {
+    func getScore(game: GameState) -> Float{
+        return getScore(game: game, player: game.player)
+    }
 }
 
 /// An algorithm that can play the game
@@ -93,11 +122,7 @@ public protocol GameAlgorithm{
     ///   - input: The input source
     init?(game: GameState, input: () -> String?)
     
-    /// Make a move, return the new resulting game state
-    ///
-    /// - Parameter game: The current game state
-    /// - Returns: The resulting game state after the move
-    func makeMove<T: GameState>(_ game: T) -> T?
+    init(game: GameState, heuristic: GameHeuristic)
     
     // TODO: find a way to remove this
     /// Make a move, return the new resulting game state
@@ -105,4 +130,16 @@ public protocol GameAlgorithm{
     /// - Parameter game: The current game state
     /// - Returns: The resulting game state after the move
     func makeMove(_ game: GameState) -> GameState?
+}
+
+public extension GameAlgorithm{
+    
+    /// Make a move, return the new resulting game state
+    ///
+    /// - Parameter game: The current game state
+    /// - Returns: The resulting game state after the move
+    func makeMove<T>(_ game: T) -> T? where T : GameState {
+        return makeMove(game as GameState) as! T?
+    }
+    
 }

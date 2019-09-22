@@ -24,7 +24,9 @@ import Foundation
 /// - Warning: isVisited is always false
 public final class WinLoseH: GameHeuristic{
     
-    public typealias ModelType = GameState
+    public var supportMulThread: Bool = true
+    
+    public init?(game: GameState) { }
     
     public func getScore(game: GameState, player: Int) -> Float {
         guard let winners = game.winners else { return 0 }
@@ -33,8 +35,16 @@ public final class WinLoseH: GameHeuristic{
         return Float(game.numPlayer - winners.count) / Float(game.numPlayer - 1)
     }
     
-    public func isVisited(game: GameState) -> Bool {
+    public func isVisited(uid: [UInt64]) -> Bool {
         return false
+    }
+    
+    public func visit(uid: [UInt64]) -> Bool {
+        return false
+    }
+    
+    public func getUid(game: GameState) -> [UInt64] {
+        return []
     }
     
 }

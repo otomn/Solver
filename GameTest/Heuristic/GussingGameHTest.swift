@@ -16,7 +16,7 @@ class GussingGameHTest: XCTestCase {
     var heuristic: GuessingGameH!
     
     override func setUp() {
-        heuristic = GuessingGameH()
+        heuristic = GuessingGameH(game: buildGame(min: 0, max: 0))
         super.setUp()
     }
     

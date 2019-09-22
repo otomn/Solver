@@ -14,7 +14,7 @@ class WinLoadHTest: XCTestCase {
     var heuristic: WinLoseH!
 
     override func setUp() {
-        heuristic = WinLoseH()
+        heuristic = WinLoseH(game: MockGame(numPlayer: 0, states: []))
         super.setUp()
     }
 

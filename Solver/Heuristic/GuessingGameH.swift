@@ -15,14 +15,33 @@ import Foundation
 /// Mainly for testing purpose
 final public class GuessingGameH: GameHeuristic{
     
-    public typealias ModelType = GuessingGame
+    public var supportMulThread: Bool = true
+    
+    public init?(game: GameState) {
+        if !(game is GuessingGame) {
+            print("Cannot run on this game")
+            return nil
+        }
+    }
+    
+    public func getScore(game: GameState, player: Int) -> Float {
+        return getScore(game: game as! GuessingGame, player: player)
+    }
     
     public func getScore(game: GuessingGame, player: Int) -> Float {
         return Float(game.minNum - game.maxNum)
     }
     
-    public func isVisited(game: GuessingGame) -> Bool {
+    public func isVisited(uid: [UInt64]) -> Bool {
         return false
+    }
+    
+    public func visit(uid: [UInt64]) -> Bool {
+        return false
+    }
+    
+    public func getUid(game: GameState) -> [UInt64] {
+        return []
     }
     
 }
