@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import Model
+import Solver
 
 class MockAlgorithmTest: XCTestCase {
 

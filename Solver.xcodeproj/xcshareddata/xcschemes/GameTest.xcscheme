@@ -23,7 +23,7 @@
             </BuildableReference>
             <SkippedTests>
                <Test
-                  Identifier = "PyraminxManhattanHTest/testWithBFSHMulThread()">
+                  Identifier = "PyraminxManhattanHTest">
                </Test>
             </SkippedTests>
          </TestableReference>

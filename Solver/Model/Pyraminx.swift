@@ -95,7 +95,7 @@ public final class Pyraminx: GameState {
         for i in 0...2{
             let sourceColour = tip.nextTo(origin: i, to: .still)
             let targetColour = tip.nextTo(origin: i, to: direction)
-            var sourceFace = faces[sourceColour.index]
+            let sourceFace = faces[sourceColour.index]
             var targetFace = faces[targetColour.index]
             targetFace[tip, tip] = sourceFace[tip, tip]
             targetFace[tip.colour, tip.nextTo(from: targetColour, to: .right)] = 

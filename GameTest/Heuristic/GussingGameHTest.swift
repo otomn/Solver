@@ -9,7 +9,7 @@
 import Foundation
 
 import XCTest
-import Model
+import Solver
 
 class GussingGameHTest: XCTestCase {
     
