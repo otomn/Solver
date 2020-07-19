@@ -53,7 +53,7 @@ import Foundation
 ///   - prompt: A function that takes parsed results and return a prompt for user input
 ///   - failedMessage: A string that will be printed if parse failed
 ///   - parser: A function that can parse `T` from a string, return `nil` if failed
-///   - terminateCondition: A function that takes the input string and parsed resulta and returns whether 
+///   - terminateCondition: A function that takes the input string and parsed result and returns whether 
 ///     `getInput` should return
 /// - returns: A list of parsed result
 func getInput<T>(prompt: ([T]) -> String, 
@@ -75,6 +75,9 @@ func getInput<T>(prompt: ([T]) -> String,
                 return result
             }
         } else {
+            if terminateCondition(input, result) {
+                return result
+            }
             print(failedMessage)
         }
     }
@@ -134,4 +137,10 @@ func pure2<T>(_ val: T) -> (Any, Any) -> T{
 func popFirst<T>(array: inout [T]) -> T?{
     if array.isEmpty { return nil }
     return array.removeFirst()
+}
+
+extension String {
+    subscript(index: Int) -> String.Index{
+        return self.index(startIndex, offsetBy: index)
+    }
 }
