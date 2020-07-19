@@ -88,20 +88,25 @@ public final class AStarSearch: GameAlgorithm{
         return heap[0][0]
     }
     
+    /// Insert the state in decreasing order
     private func insertOrdered(heap: inout [[State]], state: State){
         heapLock.lock()
         defer{
             heapLock.unlock()
         }
         for i in 0..<heap.count{
+            /// All states before i are greater than the score, insert here
             if heap[i][0].score < state.score {
                 heap.insert([state], at: i)
+                return
             }
+            /// Insert into the same bucket
             if heap[i][0].score == state.score {
                 heap[i].append(state)
                 return
             }
         }
+        /// Insert at the end
         heap.append([state])
     }
     

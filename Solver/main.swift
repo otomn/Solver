@@ -14,7 +14,7 @@ class Main{
     /// The prefix of all classes in this project
     static let bundle = "\(String(reflecting: Main.self).split(separator: ".").first!)."
     
-    /// Find a class withing this project
+    /// Find a class within this project
     ///
     /// - Parameter className: The name of the class 
     /// - Returns: The class if it exists, otherwise nil
@@ -60,7 +60,11 @@ class Main{
                 return
             }
             print(game)
-            game = algorithms[game.player].makeMove(game)!
+            guard let next = algorithms[game.player].makeMove(game) else {
+                print("Game dead")
+                return
+            }
+            game = next
         }
     }
     
@@ -83,5 +87,14 @@ var input = [
     "PyraminxManhattanH"
 ]
 
-//Main.startGame{ popFirst(array: &input) }
-Main.startGame(input: { readLine() })
+var test = [
+    "CalculatorTheGame",
+    "2152", "6", "13", "25>12", "21>3", ">", "12>5", "r", "",
+//    "BFS", 
+    "BFSHMulThread",
+    "20", "WinLoseH"
+]
+
+Main.startGame(input: { popFirst(array: &test) })
+//Main.startGame(input: { readLine() })
+//CalculatorTheGame.playLoop()

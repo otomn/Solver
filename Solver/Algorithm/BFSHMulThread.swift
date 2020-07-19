@@ -58,7 +58,6 @@ public final class BFSHMulThread: GameAlgorithm{
     
     public func computePath(game: GameState){
         isRunning = true
-        group.enter()
         computePath(game: game, path: [], queue: DispatchQueue.global(), depth: 0)
         group.wait()
     }
@@ -73,11 +72,14 @@ public final class BFSHMulThread: GameAlgorithm{
             self.path = path
             pathLock.unlock()
             self.isRunning = false
-            group.leave()
             return
         }
         for move in game.moves {
+            self.group.enter()
             queue.async {
+                defer {
+                    self.group.leave()
+                }
                 guard let newGame = game.move(move: move) else { return }
                 self.computePath(game: newGame, path: path + [move], 
                                  queue: queue, depth: depth + 1)

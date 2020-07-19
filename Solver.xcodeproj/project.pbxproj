@@ -43,6 +43,8 @@
 		DA6229412304C9430077EAB5 /* MockAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293D2304C54C0077EAB5 /* MockAlgorithm.swift */; };
 		DA6229422304C9490077EAB5 /* WinLoseH.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA62293B2303AD6F0077EAB5 /* WinLoseH.swift */; };
 		DA6229492305A7200077EAB5 /* WinLoadHTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229482305A7200077EAB5 /* WinLoadHTest.swift */; };
+		DA8150E024C4A0490090C9DA /* CalculatorTheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8150DF24C4A0490090C9DA /* CalculatorTheGame.swift */; };
+		DA8150E224C4CF5A0090C9DA /* BFS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8150E124C4CF5A0090C9DA /* BFS.swift */; };
 		DAEC0C362325469B00C99AB2 /* BFSHMulThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEC0C352325469B00C99AB2 /* BFSHMulThread.swift */; };
 		DAEC0C372327183500C99AB2 /* BFSHMulThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEC0C352325469B00C99AB2 /* BFSHMulThread.swift */; };
 /* End PBXBuildFile section */
@@ -86,6 +88,8 @@
 		DA62293D2304C54C0077EAB5 /* MockAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAlgorithm.swift; sourceTree = "<group>"; };
 		DA62293F2304C6980077EAB5 /* MockAlgorithmTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAlgorithmTest.swift; sourceTree = "<group>"; };
 		DA6229482305A7200077EAB5 /* WinLoadHTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinLoadHTest.swift; sourceTree = "<group>"; };
+		DA8150DF24C4A0490090C9DA /* CalculatorTheGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorTheGame.swift; sourceTree = "<group>"; };
+		DA8150E124C4CF5A0090C9DA /* BFS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BFS.swift; sourceTree = "<group>"; };
 		DAEC0C352325469B00C99AB2 /* BFSHMulThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BFSHMulThread.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,6 +158,7 @@
 				DA62293D2304C54C0077EAB5 /* MockAlgorithm.swift */,
 				DA344B14232474B200DCDC15 /* AStarSearch.swift */,
 				DAEC0C352325469B00C99AB2 /* BFSHMulThread.swift */,
+				DA8150E124C4CF5A0090C9DA /* BFS.swift */,
 			);
 			path = Algorithm;
 			sourceTree = "<group>";
@@ -172,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				DA53F3C422FB5735000A5B35 /* GuessingGame.swift */,
+				DA8150DF24C4A0490090C9DA /* CalculatorTheGame.swift */,
 				DA6229062301B8CE0077EAB5 /* MockGame.swift */,
 				DA219FA02310BEF600C95805 /* Pyraminx.swift */,
 			);
@@ -327,7 +333,9 @@
 				DA219F85230D853D00C95805 /* GuessingGame.swift in Sources */,
 				DA219F86230D853D00C95805 /* Protocols.swift in Sources */,
 				DA219FA12310BEF600C95805 /* Pyraminx.swift in Sources */,
+				DA8150E024C4A0490090C9DA /* CalculatorTheGame.swift in Sources */,
 				DAEC0C362325469B00C99AB2 /* BFSHMulThread.swift in Sources */,
+				DA8150E224C4CF5A0090C9DA /* BFS.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
