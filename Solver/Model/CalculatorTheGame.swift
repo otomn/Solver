@@ -24,30 +24,28 @@ final public class CalculatorTheGame: GameState{
         return "\(current)"
     }
     
-    var initial: Int
-    var movesTaken: Int = 0
-    var maxMoves: Int
-    var goal: Int
+    var movesLeft: Int
     var current: Int
+    var goal: Int
     var operations: [Operation] = []
-    var portal = Portal(inPos: Int.max, outPos: 0)
+    var portal: Portal?
     
     static let maxLen = 7
     static let error = Int.max
     
-    public convenience init(initial: Int, maxMoves: Int, goal: Int, 
+    public convenience init(value: Int, movesLeft: Int, goal: Int, 
                             ops: [String]) {
-        self.init(initial: initial, maxMoves: maxMoves, goal: goal, 
+        self.init(value: value, movesLeft: movesLeft, goal: goal, 
                   ops: ops.compactMap(CalculatorTheGame.getOperation))
     }
     
-    init(initial: Int, maxMoves: Int, goal: Int, ops: [Operation]) {
-        self.initial = initial;
-        self.maxMoves = maxMoves;
+    init(value: Int, movesLeft: Int, goal: Int, ops: [Operation]) {
+        self.current = value;
+        self.movesLeft = movesLeft;
         self.goal = goal;
-        self.current = initial;
         self.operations = ops
-        if !ops.reduce(false, { $0 || $1 is Paste } ){
+        if !ops.reduce(false, { $0 || $1 is Paste })
+            && ops.reduce(false, { $0 || $1 is Store }){
             operations.append(Paste())
         }
         self.moves = []
@@ -57,9 +55,6 @@ final public class CalculatorTheGame: GameState{
                 continue
             }
             self.moves.append("\(op)")
-            if op is Store {
-                self.moves.append("\(Paste(op.const))")
-            }
         }
     }
     
@@ -88,7 +83,7 @@ final public class CalculatorTheGame: GameState{
             parser: CalculatorTheGame.getOperation, 
             terminateCondition: { input, parsed in input == "" },
             inputStream: input)
-        self.init(initial: initial, maxMoves: maxMoves, goal: goal, ops: ops)
+        self.init(value: initial, movesLeft: maxMoves, goal: goal, ops: ops)
     }
     
     public func playerSymbol(player: Int) -> String? {
@@ -103,27 +98,14 @@ final public class CalculatorTheGame: GameState{
             return nil
         }
         let newOps = operations.map{ "\($0)" }
-            .compactMap(CalculatorTheGame.getOperation)
-        newOps.forEach{ 
-            if op is Increment && !($0 is Increment) { $0.const += op.const }
-            if op is Store && $0 is Paste { $0.const = current }
-        }
-        let newState = CalculatorTheGame(initial: initial, maxMoves: maxMoves, 
-                                         goal: goal, ops: newOps)
-        newState.movesTaken = movesTaken + 1
-        if newState.movesTaken > newState.maxMoves {
+            .compactMap(CalculatorTheGame.getOperation) // copy
+        let newState = CalculatorTheGame(
+            value: current, movesLeft: movesLeft - 1, goal: goal, ops: newOps)
+        op.operate(state: newState)
+        if newState.current == CalculatorTheGame.error || newState.movesLeft < 0 {
             return nil
         }
-        var num = op.operate(current)
-        if num == CalculatorTheGame.error {
-            return nil
-        }
-        var portaled = portal.operate(num)
-        while portaled != num {
-            num = portaled
-            portaled = portal.operate(num)
-        }
-        newState.current = num
+        portal?.operate(state: newState)
         return newState
     }
     
@@ -143,7 +125,11 @@ final public class CalculatorTheGame: GameState{
             self.const = const
         }
         
-        func operate(_ num: Int) -> Int {
+        func operate(state: CalculatorTheGame) {
+            state.current = operate(num: state.current)
+        }
+        
+        func operate(num: Int) -> Int {
             return num
         }
     }
@@ -155,7 +141,7 @@ final public class CalculatorTheGame: GameState{
             return "/\(const)"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
             if num % const != 0 {
                 return error
             }
@@ -170,7 +156,7 @@ final public class CalculatorTheGame: GameState{
             return "*\(const)"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
             return num * const
         }
     }
@@ -182,7 +168,7 @@ final public class CalculatorTheGame: GameState{
             return "+\(const)"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
             return num + const
         }
     }
@@ -194,7 +180,7 @@ final public class CalculatorTheGame: GameState{
             return "-\(const)"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
             return num - const
         }
         
@@ -207,7 +193,7 @@ final public class CalculatorTheGame: GameState{
             return "<<"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
             var str = String(num)
             str.removeLast()
             return Int(str) ?? 0
@@ -222,7 +208,10 @@ final public class CalculatorTheGame: GameState{
             return "\(const)"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
+            if const < 0 { 
+                return num
+            }
             let str = String(num) + String(const)
             return str.count > maxLen ? error : Int(str)!
         }
@@ -236,7 +225,7 @@ final public class CalculatorTheGame: GameState{
             return "^\(const)"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
             let result = pow(Double(num), Double(const))
             return result.magnitude > Double(Int.max) ? error : Int(result)
         }
@@ -250,7 +239,7 @@ final public class CalculatorTheGame: GameState{
             return "+-"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
             return -num
         }
     }
@@ -271,7 +260,7 @@ final public class CalculatorTheGame: GameState{
             return "\(ori)>\(target)"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
             let key = ori
             var str = "\(num)"
             var result = ""
@@ -306,7 +295,7 @@ final public class CalculatorTheGame: GameState{
             return "r"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
             return Int(String("\(num.magnitude)".reversed()))! * num.signum()
         }
         
@@ -319,7 +308,7 @@ final public class CalculatorTheGame: GameState{
             return "sum"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
             var sum = 0
             for i in "\(num)" {
                 sum += Int("\(i)") ?? 0
@@ -343,7 +332,7 @@ final public class CalculatorTheGame: GameState{
             return left ? "<" : ">"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
             var str = "\(num.magnitude)"
             if left {
                 str = str + "\(str.first!)"
@@ -364,7 +353,7 @@ final public class CalculatorTheGame: GameState{
             return "m"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
             let str = "\(num)" + String("\(num.magnitude)".reversed())
             return str.count > maxLen ? error : Int(str)!
         }
@@ -378,8 +367,8 @@ final public class CalculatorTheGame: GameState{
             return "++\(const)"
         }
         
-        override func operate(_ num: Int) -> Int {
-            return num
+        override func operate(state: CalculatorTheGame) {
+            state.operations.forEach{ if !($0 is Increment) { $0.const += const } }
         }
         
     }
@@ -389,6 +378,10 @@ final public class CalculatorTheGame: GameState{
         
         override var description: String {
             return "st"
+        }
+        
+        override func operate(state: CalculatorTheGame) {
+            state.operations.forEach{ if $0 is Paste { $0.const = state.current } }
         }
         
     }
@@ -409,7 +402,7 @@ final public class CalculatorTheGame: GameState{
             return "inv"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(num: Int) -> Int {
             let str = "\(num)"
             var result = ""
             for c in str {
@@ -436,7 +429,15 @@ final public class CalculatorTheGame: GameState{
             return "\(inPos)-\(outPos)"
         }
         
-        override func operate(_ num: Int) -> Int {
+        override func operate(state: CalculatorTheGame) {
+            var portaled = operate(num: state.current)
+            while portaled != state.current {
+                state.current = portaled
+                portaled = operate(num: portaled)
+            }
+        }
+        
+        override func operate(num: Int) -> Int {
             let str = String(num.magnitude)
             if str.count <= inPos {
                 return num
