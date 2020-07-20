@@ -47,6 +47,9 @@ final public class CalculatorTheGame: GameState{
         self.goal = goal;
         self.current = initial;
         self.operations = ops
+        if !ops.reduce(false, { $0 || $1 is Paste } ){
+            operations.append(Paste())
+        }
         self.moves = []
         for op in ops {
             if let port = op as? Portal {
@@ -99,8 +102,15 @@ final public class CalculatorTheGame: GameState{
         guard let op = CalculatorTheGame.getOperation(input: move) else {
             return nil
         }
-        let newState = CalculatorTheGame(initial: initial, maxMoves: maxMoves, goal: goal, ops: operations)
-        newState.movesTaken = movesTaken + (op is Store ? 0 : 1)
+        let newOps = operations.map{ "\($0)" }
+            .compactMap(CalculatorTheGame.getOperation)
+        newOps.forEach{ 
+            if op is Increment && !($0 is Increment) { $0.const += op.const }
+            if op is Store && $0 is Paste { $0.const = current }
+        }
+        let newState = CalculatorTheGame(initial: initial, maxMoves: maxMoves, 
+                                         goal: goal, ops: newOps)
+        newState.movesTaken = movesTaken + 1
         if newState.movesTaken > newState.maxMoves {
             return nil
         }
@@ -114,13 +124,6 @@ final public class CalculatorTheGame: GameState{
             portaled = portal.operate(num)
         }
         newState.current = num
-        if op is Increment {
-            for o in newState.operations {
-                if !(o is Increment){
-                    o.const += op.const
-                }
-            }
-        }
         return newState
     }
     
@@ -385,16 +388,7 @@ final public class CalculatorTheGame: GameState{
     class Store: Operation {
         
         override var description: String {
-            return const == error ? "st" : "st\(const)"
-        }
-        
-        override func operate(_ num: Int) -> Int {
-            let mag = Int(num.magnitude)
-            if mag == const {
-                return error
-            }
-            const = mag
-            return num
+            return "st"
         }
         
     }
@@ -485,6 +479,8 @@ final public class CalculatorTheGame: GameState{
             return Mirror()
         case "inv":
             return Inverse()
+        case "st":
+            return Store()
         default:
             break;
         }
@@ -512,16 +508,12 @@ final public class CalculatorTheGame: GameState{
             return Shift(shiftLeft: true)
         case ">":
             return Shift(shiftLeft: false)
-        case "s":
+        case "p":
             str.removeFirst()
-            if str == "t" {
-                return Store(CalculatorTheGame.error)
-            }
-            if str == "" {
+            if str.removeFirst() != "s" {
                 return nil
             }
-            str.removeFirst()
-            return Store(Int(str) ?? 0)
+            return Paste(Int(str) ?? 0)
         default:
             if let num = Int(str) {
                 return Append(num)
@@ -544,8 +536,8 @@ final public class CalculatorTheGame: GameState{
     
     static func playLoop() {
         while true {
-            let game: GameState = CalculatorTheGame(input: { readLine() })!
-            let algorithm = BFS(game: game, 
+            guard let game: GameState = CalculatorTheGame(input: { readLine() }) else { continue }
+            let algorithm = BFSHMulThread(game: game, 
                 heuristic: WinLoseH(game: game)!)
             algorithm.computePath(game: game)
             print(algorithm.path)

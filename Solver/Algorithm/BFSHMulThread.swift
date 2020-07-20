@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Don't run this in the editor
 public final class BFSHMulThread: GameAlgorithm{
     
     var depth: Int

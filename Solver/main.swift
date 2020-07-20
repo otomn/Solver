@@ -95,6 +95,6 @@ var test = [
     "20", "WinLoseH"
 ]
 
-Main.startGame(input: { popFirst(array: &test) })
+//Main.startGame(input: { popFirst(array: &test) })
 //Main.startGame(input: { readLine() })
-//CalculatorTheGame.playLoop()
+CalculatorTheGame.playLoop()
