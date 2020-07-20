@@ -94,8 +94,7 @@ final public class CalculatorTheGame: GameState{
         guard let op = operations.first(where: { "\($0)" == move }) else {
             return nil
         }
-        let newOps = operations.map{ "\($0)" }
-            .compactMap(Operation.parse) // copy
+        let newOps = operations.map{ $0.copy() }
         let newState = CalculatorTheGame(
             value: current, movesLeft: movesLeft - 1, goal: goal, ops: newOps)
         op.operate(state: newState)
@@ -111,7 +110,10 @@ final public class CalculatorTheGame: GameState{
             guard let game: GameState = CalculatorTheGame(input: { readLine() }) else { continue }
             let algorithm = BFSHMulThread(game: game, 
                 heuristic: WinLoseH(game: game)!)
+            let start = Date()
             algorithm.computePath(game: game)
+            let end = Date()
+            print(end.timeIntervalSince(start))
             print(algorithm.path)
         }
     }
@@ -151,6 +153,10 @@ class Operation: OperationP {
     
     func operate(num: Int) -> Int {
         return num
+    }
+    
+    func copy() -> Operation {
+        return Self.init(description)!
     }
     
     static func parse(_ description: String) -> Operation?{
