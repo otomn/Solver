@@ -14,7 +14,9 @@ final public class CalculatorTheGame: GameState{
     
     public var numPlayer: Int = 1
     
-    public var moves: [String]
+    public var moves: [String] {
+        return operations.map(String.init)
+    }
     
     public var winners: [Int]? {
         return goal == current ? [0] : nil
@@ -43,15 +45,13 @@ final public class CalculatorTheGame: GameState{
         self.operations = ops
         if !ops.reduce(false, { $0 || $1 is Paste })
             && ops.reduce(false, { $0 || $1 is Store }){
-            operations.append(Paste(-1))
+            operations.append(Paste())
         }
-        self.moves = []
         for op in ops {
             if let port = op as? Portal {
                 portal = port
-                continue
+                break
             }
-            self.moves.append("\(op)")
         }
     }
     
@@ -181,15 +181,31 @@ class Operation: OperationP {
         return nil
     }
     
-    static func parseUnary(target: String, value: String) -> Int? {
+    static func parseUnaryString(target: String, value: String) -> String? {
         return value.starts(with: target) ? 
-            Int(value[value[target.count]...]) : nil
+            String(value[value[target.count]...]) : nil
     }
     
-    static func parseBinary(sep: Character, value: String) -> (Int, Int)?{
-        let splited = value.split(separator: sep)
+    static func parseUnary(target: String, value: String) -> Int? {
+        if let s = parseUnaryString(target: target, value: value) {
+            return Int(s)
+        }
+        return nil
+    }
+    
+    static func parseBinaryString(sep: Character, value: String)
+        -> (String, String)?{
+        let splited = value.split(separator: sep).map(String.init)
         if splited.count == 2 {
-            if let a = Int(splited[0]), let b = Int(splited[1]) {
+            return (splited[0], splited[1])
+        }
+        return nil
+    }
+    
+    static func parseBinary(sep: Character, value: String)
+        -> (Int, Int)?{
+        if let p = parseBinaryString(sep: sep, value: value) {
+            if let a = Int(p.0), let b = Int(p.1) {
                 return (a, b)
             }
         }
@@ -339,7 +355,7 @@ class Power: Operation{
     
     override func operate(num: Int) -> Int {
         let result = pow(Double(num), Double(const))
-        return result.magnitude > Double(Int.max) ? Operation.error : Int(result)
+        return result.magnitude >= Double(Int.max) ? Operation.error : Int(result)
     }
     
     required init?(_ description: String) {
@@ -384,8 +400,8 @@ class Replace: Operation{
     }
     
     required convenience init?(_ description: String) {
-        if let p = Operation.parseBinary(sep: ">", value: description) {
-            self.init(ori: String(p.0), target: String(p.1))
+        if let p = Operation.parseBinaryString(sep: ">", value: description) {
+            self.init(ori:p.0, target: p.1)
         } else {
             return nil
         }
@@ -573,8 +589,8 @@ class Paste: Append {
         return "ps\(const)"
     }
     
-    override init(_ const: Int) {
-        super.init(const)
+    init() {
+        super.init(-1)
     }
     
     required init?(_ description: String) {
