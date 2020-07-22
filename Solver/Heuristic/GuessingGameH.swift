@@ -32,16 +32,8 @@ final public class GuessingGameH: GameHeuristic{
         return Float(game.minNum - game.maxNum)
     }
     
-    public func isVisited(uid: [UInt64]) -> Bool {
+    public func visit(game: GameState, cost: Int, register: Bool) -> Bool {
         return false
-    }
-    
-    public func visit(uid: [UInt64]) -> Bool {
-        return false
-    }
-    
-    public func getUid(game: GameState) -> [UInt64] {
-        return []
     }
     
 }

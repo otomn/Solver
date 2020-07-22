@@ -70,8 +70,9 @@ public final class BFS: GameAlgorithm{
                     path = newState.path
                     return
                 }
-                let uid = self.heuristic.getUid(game: newGame)
-                if self.heuristic.visit(uid: uid) { return }
+                if self.heuristic.visit(game: newGame, cost: newState.depth){
+                    continue 
+                }
                 heap.append(newState)
             }
         }

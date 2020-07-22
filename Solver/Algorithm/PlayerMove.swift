@@ -9,17 +9,17 @@
 import Foundation
 
 /// Ask the user to make a move through standard input
-final class PlayerMove: GameAlgorithm{
+public final class PlayerMove: GameAlgorithm{
     
     var heuristic: GameHeuristic?
     
-    init?(game: GameState, input: () -> String?) { }
+    public init?(game: GameState, input: () -> String?) { }
     
-    init(game: GameState, heuristic: GameHeuristic) {
+    public init(game: GameState, heuristic: GameHeuristic) {
         self.heuristic = heuristic
     }
     
-    func makeMove(_ game: GameState) -> GameState? {
+    public func makeMove(_ game: GameState) -> GameState? {
         if let move = getInput(
             prompt: pure1("""
             \(game.moveDescription)

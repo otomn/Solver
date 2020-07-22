@@ -66,8 +66,10 @@ public final class AStarSearch: GameAlgorithm{
                     guard let newGame = state.game.move(move: move) else {
                         return
                     }
-                    let uid = self.heuristic.getUid(game: newGame)
-                    if self.heuristic.visit(uid: uid) { return }
+                    if self.heuristic.visit(game: newGame, cost: 0) {
+                        // Don't care about the cost, if the state is visited, skip
+                        return
+                    }
                     let score = self.heuristic.getScore(game: newGame)
                     self.insertOrdered(heap: &heap, state: (score, newGame, state.path + [move]))
                 }

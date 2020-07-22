@@ -35,16 +35,8 @@ public final class WinLoseH: GameHeuristic{
         return Float(game.numPlayer - winners.count) / Float(game.numPlayer - 1)
     }
     
-    public func isVisited(uid: [UInt64]) -> Bool {
+    public func visit(game: GameState, cost: Int, register: Bool) -> Bool {
         return false
-    }
-    
-    public func visit(uid: [UInt64]) -> Bool {
-        return false
-    }
-    
-    public func getUid(game: GameState) -> [UInt64] {
-        return []
     }
     
 }

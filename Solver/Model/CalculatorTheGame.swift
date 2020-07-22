@@ -108,8 +108,8 @@ final public class CalculatorTheGame: GameState{
     static func playLoop() {
         while true {
             guard let game: GameState = CalculatorTheGame(input: { readLine() }) else { continue }
-            let algorithm = BFSHMulThread(game: game, 
-                heuristic: WinLoseH(game: game)!)
+            let algorithm = BFS(game: game, 
+                heuristic: CalculatorTheGameH(game: game)!)
             let start = Date()
             algorithm.computePath(game: game)
             let end = Date()

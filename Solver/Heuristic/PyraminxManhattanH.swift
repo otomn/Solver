@@ -13,7 +13,6 @@ public final class PyraminxManhattanH: GameHeuristic{
     /// A lock for dictionary `visited`
     private var dicLock = NSLock()
     
-    
     private var visited: [UInt64:Bool] = [:]
     
     public var supportMulThread: Bool = true
@@ -36,25 +35,16 @@ public final class PyraminxManhattanH: GameHeuristic{
         }
     }
     
-    public func isVisited(uid: [UInt64]) -> Bool {
+    public func visit(game: GameState, cost: Int, register: Bool) -> Bool {
+        let uid = getUid(game: game as! Pyraminx)
         dicLock.lock()
         defer {
+            if register{
+                visited[uid] = true
+            }
             dicLock.unlock()
         }
-        return visited[uid[0]] ?? false
-    }
-    
-    public func visit(uid: [UInt64]) -> Bool{
-        dicLock.lock()
-        defer {
-            visited[uid[0]] = true
-            dicLock.unlock()
-        }
-        return visited[uid[0]] ?? false
-    }
-    
-    public func getUid(game: GameState) -> [UInt64] {
-        return [getUid(game: game as! Pyraminx)]
+        return visited[uid] ?? false
     }
     
     public func getUid(game: Pyraminx) -> UInt64{

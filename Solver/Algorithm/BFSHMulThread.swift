@@ -66,8 +66,7 @@ public final class BFSHMulThread: GameAlgorithm{
     public func computePath(game: GameState, path: [String], 
                             queue: DispatchQueue, depth: Int){
         if !self.isRunning || depth > self.depth { return }
-        let uid = heuristic.getUid(game: game)
-        if heuristic.visit(uid: uid) { return }
+        if heuristic.visit(game: game, cost: depth) { return }
         if game.winners != nil {
             pathLock.lock()
             self.path = path

@@ -95,18 +95,23 @@ public protocol GameHeuristic {
     /// - Returns: A score of the current state for the player
     func getScore(game: GameState, player: Int) -> Float
     
-    func isVisited(uid: [UInt64]) -> Bool
-    
-    func visit(uid: [UInt64]) -> Bool
-    
-    func getUid(game: GameState) -> [UInt64]
+    func visit(game: GameState, cost: Int, register: Bool) -> Bool
     
     init?(game: GameState)
 }
 
 public extension GameHeuristic {
+    
     func getScore(game: GameState) -> Float{
         return getScore(game: game, player: game.player)
+    }
+    
+    func visit(game: GameState, cost: Int) -> Bool {
+        visit(game: game, cost: cost, register: true)
+    }
+    
+    func isVisited(game: GameState, cost: Int) -> Bool {
+        visit(game: game, cost: cost, register: false)
     }
 }
 

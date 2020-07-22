@@ -45,6 +45,11 @@
 		DA6229492305A7200077EAB5 /* WinLoadHTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6229482305A7200077EAB5 /* WinLoadHTest.swift */; };
 		DA8150E024C4A0490090C9DA /* CalculatorTheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8150DF24C4A0490090C9DA /* CalculatorTheGame.swift */; };
 		DA8150E224C4CF5A0090C9DA /* BFS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8150E124C4CF5A0090C9DA /* BFS.swift */; };
+		DA8150E424C7A74E0090C9DA /* CalculatorTheGameH.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8150E324C7A74E0090C9DA /* CalculatorTheGameH.swift */; };
+		DA8150E824C7CEA20090C9DA /* CalculatorTheGameHTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8150E724C7CEA20090C9DA /* CalculatorTheGameHTest.swift */; };
+		DA8150E924C7D1A70090C9DA /* CalculatorTheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8150DF24C4A0490090C9DA /* CalculatorTheGame.swift */; };
+		DA8150EA24C7D1AE0090C9DA /* BFS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8150E124C4CF5A0090C9DA /* BFS.swift */; };
+		DA8150EB24C7D1B50090C9DA /* CalculatorTheGameH.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8150E324C7A74E0090C9DA /* CalculatorTheGameH.swift */; };
 		DAEC0C362325469B00C99AB2 /* BFSHMulThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEC0C352325469B00C99AB2 /* BFSHMulThread.swift */; };
 		DAEC0C372327183500C99AB2 /* BFSHMulThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEC0C352325469B00C99AB2 /* BFSHMulThread.swift */; };
 /* End PBXBuildFile section */
@@ -90,6 +95,8 @@
 		DA6229482305A7200077EAB5 /* WinLoadHTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinLoadHTest.swift; sourceTree = "<group>"; };
 		DA8150DF24C4A0490090C9DA /* CalculatorTheGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorTheGame.swift; sourceTree = "<group>"; };
 		DA8150E124C4CF5A0090C9DA /* BFS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BFS.swift; sourceTree = "<group>"; };
+		DA8150E324C7A74E0090C9DA /* CalculatorTheGameH.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorTheGameH.swift; sourceTree = "<group>"; };
+		DA8150E724C7CEA20090C9DA /* CalculatorTheGameHTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorTheGameHTest.swift; sourceTree = "<group>"; };
 		DAEC0C352325469B00C99AB2 /* BFSHMulThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BFSHMulThread.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -169,6 +176,7 @@
 				DA6229042301B82A0077EAB5 /* GuessingGameH.swift */,
 				DA62293B2303AD6F0077EAB5 /* WinLoseH.swift */,
 				DA344B0F2324634A00DCDC15 /* PyraminxManhattanH.swift */,
+				DA8150E324C7A74E0090C9DA /* CalculatorTheGameH.swift */,
 			);
 			path = Heuristic;
 			sourceTree = "<group>";
@@ -221,6 +229,7 @@
 				DA6229482305A7200077EAB5 /* WinLoadHTest.swift */,
 				DA219F9C2310B63700C95805 /* GussingGameHTest.swift */,
 				DA344B12232468B400DCDC15 /* PyraminxManhattanHTest.swift */,
+				DA8150E724C7CEA20090C9DA /* CalculatorTheGameHTest.swift */,
 			);
 			path = Heuristic;
 			sourceTree = "<group>";
@@ -331,6 +340,7 @@
 				DA344B102324634A00DCDC15 /* PyraminxManhattanH.swift in Sources */,
 				DA219F84230D853D00C95805 /* MockGame.swift in Sources */,
 				DA219F85230D853D00C95805 /* GuessingGame.swift in Sources */,
+				DA8150E424C7A74E0090C9DA /* CalculatorTheGameH.swift in Sources */,
 				DA219F86230D853D00C95805 /* Protocols.swift in Sources */,
 				DA219FA12310BEF600C95805 /* Pyraminx.swift in Sources */,
 				DA8150E024C4A0490090C9DA /* CalculatorTheGame.swift in Sources */,
@@ -352,8 +362,10 @@
 				DA219F99230F780700C95805 /* main.swift in Sources */,
 				DA17551B23117ADA00EEA8F4 /* BitUtil.swift in Sources */,
 				DA6229412304C9430077EAB5 /* MockAlgorithm.swift in Sources */,
+				DA8150E924C7D1A70090C9DA /* CalculatorTheGame.swift in Sources */,
 				DA344B0E23243DCA00DCDC15 /* PyraminxUtilTest.swift in Sources */,
 				DA6229302301CA0C0077EAB5 /* GuessingGame.swift in Sources */,
+				DA8150E824C7CEA20090C9DA /* CalculatorTheGameHTest.swift in Sources */,
 				DA219F97230F75CC00C95805 /* PlayerMove.swift in Sources */,
 				DA6229312301CA0C0077EAB5 /* MockGame.swift in Sources */,
 				DA344B112324668000DCDC15 /* PyraminxManhattanH.swift in Sources */,
@@ -364,6 +376,8 @@
 				DA344B13232468B400DCDC15 /* PyraminxManhattanHTest.swift in Sources */,
 				DA17551A2311798F00EEA8F4 /* BitUtilTest.swift in Sources */,
 				DA6229492305A7200077EAB5 /* WinLoadHTest.swift in Sources */,
+				DA8150EA24C7D1AE0090C9DA /* BFS.swift in Sources */,
+				DA8150EB24C7D1B50090C9DA /* CalculatorTheGameH.swift in Sources */,
 				DA62292B2301C3B60077EAB5 /* MockGameTest.swift in Sources */,
 				DA17551C23117AE000EEA8F4 /* Pyraminx.swift in Sources */,
 				DA344B0C2323333200DCDC15 /* PyraminxTest.swift in Sources */,

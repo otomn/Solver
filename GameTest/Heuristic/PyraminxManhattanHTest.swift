@@ -89,13 +89,11 @@ class PyraminxManhattanHTest: XCTestCase {
     }
     
     func testVisited(){
-        let uidComplete = [heuristic.getUid(game: gameComplete)]
-        let uidIpr = [heuristic.getUid(game: gameIpr)]
-        XCTAssertFalse(heuristic.isVisited(uid: uidComplete))
-        XCTAssertFalse(heuristic.isVisited(uid: uidIpr))
-        XCTAssertFalse(heuristic.visit(uid: uidComplete))
-        XCTAssertTrue(heuristic.isVisited(uid: uidComplete))
-        XCTAssertFalse(heuristic.isVisited(uid: uidIpr))
+        XCTAssertFalse(heuristic.isVisited(game: gameComplete, cost: 0))
+        XCTAssertFalse(heuristic.isVisited(game: gameIpr, cost: 0))
+        XCTAssertFalse(heuristic.visit(game: gameComplete, cost: 0))
+        XCTAssertTrue(heuristic.isVisited(game: gameComplete, cost: 0))
+        XCTAssertFalse(heuristic.isVisited(game: gameIpr, cost: 0))
     }
     
     func testWithBFSHMulThread(){
