@@ -17,7 +17,6 @@ import Foundation
 ///     prompt: { _ in return "Type an integer please: " },
 ///     failedMessage: "That is not an integer",
 ///     parser: Int.init,
-///     termniateCondition: pure2(true)
 ///     )
 /// ```
 ///    
@@ -38,8 +37,8 @@ import Foundation
 /// Loop runs until user types a valid input or close the input stream
 ///
 /// - If the user types a valid string, the result will be store.
-///   In the example above, `terminateCondition` is a function that always return `true`,
-///   So the program will terminate after a valid string is received:
+///   In the example above, the default option is used for `terminateCondition`
+///   which returns when there is one parsed result
 ///
 ///   `Type an integer please: 5`
 ///
@@ -53,13 +52,13 @@ import Foundation
 ///   - prompt: A function that takes parsed results and return a prompt for user input
 ///   - failedMessage: A string that will be printed if parse failed
 ///   - parser: A function that can parse `T` from a string, return `nil` if failed
-///   - terminateCondition: A function that takes the input string and parsed result and returns whether 
+///   - terminateCondition: A function that takes the input string and parsed result and returns whether it should return (by default, only get one result)
 ///     `getInput` should return
 /// - returns: A list of parsed result
 func getInput<T>(prompt: ([T]) -> String, 
                  failedMessage: String, 
                  parser parse: (String) -> T?,
-                 terminateCondition: (String, [T]) -> Bool, 
+                 terminateCondition: (String, [T]) -> Bool = { $1.count == 1 },
                  inputStream: () -> String? = { readLine() }
     ) -> [T]{
     var result: [T] = []

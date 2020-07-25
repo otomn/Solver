@@ -198,7 +198,7 @@ public struct Tip {
                 }
                 return nil
             }, 
-            terminateCondition: { _, result in return result.count == 3 },
+            terminateCondition: { $1.count == 3 },
             inputStream: input
             )
         if colours.count != 3 { return nil }
@@ -287,7 +287,6 @@ public struct Face: CustomStringConvertible{
                 prompt: { _ in "Tile colour for \(firstColour) \(secondColour): " },
                 failedMessage: "Invalid colour", 
                 parser: Colour.init, 
-                terminateCondition: pure2(true),
                 inputStream: input
                 ).first else { return false }
             self[firstColour, secondColour] = tile

@@ -80,7 +80,6 @@ final public class GuessingGame: GameState {
             prompt: pure1("Minimum number: "),
             failedMessage: "Must be an integer",
             parser: Int.init,
-            terminateCondition: pure2(true),
             inputStream: input
             ).first else { return nil }
         guard let max: Int = getInput(
@@ -92,7 +91,6 @@ final public class GuessingGame: GameState {
                 }
                 return nil
             },
-            terminateCondition: pure2(true),
             inputStream: input
             ).first else { return nil }
         guard let num: Int = getInput(
@@ -104,7 +102,6 @@ final public class GuessingGame: GameState {
                 }
                 return nil
             },
-            terminateCondition: pure2(true),
             inputStream: input
             ).first else { return nil }
         self.init(playerSymbols: Array(symbols), min: min, max: max, num: num)

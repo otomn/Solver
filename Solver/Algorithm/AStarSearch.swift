@@ -35,7 +35,6 @@ public final class AStarSearch: GameAlgorithm{
             prompt: pure1("Please type a heuristic name: "),
             failedMessage: "Cannot find the heuristic",
             parser: Main.findClass,
-            terminateCondition: pure2(true),
             inputStream: input
             ).first else { return nil }
         guard let heuristic = heuristicType.init(game: game) else {

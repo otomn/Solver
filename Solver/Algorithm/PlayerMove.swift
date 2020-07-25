@@ -26,8 +26,7 @@ public final class PlayerMove: GameAlgorithm{
             \(game.playerSymbol()) move: 
             """) ,
             failedMessage: "Invalid move",
-            parser: { game.isValidMove(move: $0) ? $0 : nil },
-            terminateCondition: pure2(true)
+            parser: { game.isValidMove(move: $0) ? $0 : nil }
             ).first {
             return game.move(move: move)
         }

@@ -60,25 +60,22 @@ final public class CalculatorTheGame: GameState{
             prompt: pure1("Initial: "), 
             failedMessage: "Not a number", 
             parser: Int.init, 
-            terminateCondition: pure2(true),
             inputStream: input).first else { return nil }
         guard let maxMoves = getInput(
             prompt: pure1("Moves: "), 
             failedMessage: "Not a number", 
             parser: Int.init, 
-            terminateCondition: pure2(true),
             inputStream: input).first else { return nil }
         guard let goal = getInput(
             prompt: pure1("Goal: "), 
             failedMessage: "Not a number", 
             parser: Int.init, 
-            terminateCondition: pure2(true),
             inputStream: input).first else { return nil }
         let ops = getInput(
             prompt: pure1("Operation: "), 
             failedMessage: "Invalid operation", 
             parser: Operation.parse, 
-            terminateCondition: { input, parsed in input == "" },
+            terminateCondition: { input, _ in input == "" },
             inputStream: input)
         self.init(value: initial, movesLeft: maxMoves, goal: goal, ops: ops)
     }

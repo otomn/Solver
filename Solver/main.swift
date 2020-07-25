@@ -32,7 +32,6 @@ class Main{
             prompt: pure1("Please type a game name: "),
             failedMessage: "Cannot find the game",
             parser: findClass,
-            terminateCondition: pure2(true),
             inputStream: input).first else { return }
         
         guard var game = gameType.init(input: input) else { return }
@@ -41,7 +40,7 @@ class Main{
             prompt: pure1("Please type an algorithm name: "),
             failedMessage: "Cannot find the algorithm",
             parser: findClass,
-            terminateCondition: { _, result in return result.count == game.numPlayer },
+            terminateCondition: { $1.count == game.numPlayer },
             inputStream: input)
         
         let algorithms = algorithmTypes.compactMap{ $0.init(game: game, input: input) }
