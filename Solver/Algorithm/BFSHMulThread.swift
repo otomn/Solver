@@ -13,6 +13,7 @@ public final class BFSHMulThread: GameAlgorithm{
     
     var depth: Int
     var path: [String] = []
+    var paths: [[String]] = []
     let heuristic: GameHeuristic
     var isRunning = true
     let pathLock = NSLock()
@@ -57,22 +58,29 @@ public final class BFSHMulThread: GameAlgorithm{
         return game.move(move: path.removeFirst())
     }
     
-    public func computePath(game: GameState){
+    public func computePath(game: GameState, allPaths: Bool = false){
         isRunning = true
-        computePath(game: game, path: [], queue: DispatchQueue.global(), depth: 0)
+        computePath(game: game, path: [], queue: DispatchQueue.global(), 
+                    depth: 0, allPaths: allPaths)
         group.wait()
     }
     
-    public func computePath(game: GameState, path: [String], 
-                            queue: DispatchQueue, depth: Int){
+    public func computePath(game: GameState, path: [String], queue: DispatchQueue,
+                            depth: Int, allPaths: Bool){
         if !self.isRunning || depth > self.depth { return }
         if heuristic.visit(game: game, cost: depth) { return }
         if game.winners != nil {
-            pathLock.lock()
-            self.path = path
-            pathLock.unlock()
-            self.isRunning = false
-            return
+            if allPaths {
+                pathLock.lock()
+                self.paths.append(path)
+                pathLock.unlock()
+            } else {
+                pathLock.lock()
+                self.path = path
+                pathLock.unlock()
+                self.isRunning = false
+                return
+            }
         }
         for move in game.moves {
             self.group.enter()
@@ -82,7 +90,7 @@ public final class BFSHMulThread: GameAlgorithm{
                 }
                 guard let newGame = game.move(move: move) else { return }
                 self.computePath(game: newGame, path: path + [move], 
-                                 queue: queue, depth: depth + 1)
+                                 queue: queue, depth: depth + 1, allPaths: allPaths)
             }
         }
     }

@@ -108,13 +108,20 @@ final public class CalculatorTheGame: GameState{
     static func playLoop() {
         while true {
             guard let game: GameState = CalculatorTheGame(input: { readLine() }) else { continue }
-            let algorithm = BFS(game: game, 
-                heuristic: CalculatorTheGameH(game: game)!)
+            // CalculatorTheGameH is not designed to find all solutions
+            let heuristic = WinLoseH(game: game)!, allPaths = true
+//            let heuristic = CalculatorTheGameH(game: game)!, allPaths = false 
+            let algorithm = BFSHMulThread(game: game, heuristic: heuristic)
             let start = Date()
-            algorithm.computePath(game: game)
+            algorithm.computePath(game: game, allPaths: allPaths)
             let end = Date()
-            print(end.timeIntervalSince(start))
-            print(algorithm.path)
+            print("Time taken: \(end.timeIntervalSince(start))")
+            print("Solutions:")
+            algorithm.paths.sorted(by: { $0.count < $1.count }).forEach{
+                print("[\($0.count)]:", terminator: " ")
+                $0.forEach{ print($0, terminator: " ") }
+                print()
+            }
         }
     }
 }

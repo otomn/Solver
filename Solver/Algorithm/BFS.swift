@@ -12,6 +12,7 @@ public final class BFS: GameAlgorithm{
     
     var depth: Int
     var path: [String] = []
+    var paths: [[String]] = []
     let heuristic: GameHeuristic
     typealias State = (depth: Int, game: GameState, path: [String])
     
@@ -54,7 +55,7 @@ public final class BFS: GameAlgorithm{
         return game.move(move: path.removeFirst())
     }
     
-    public func computePath(game: GameState){
+    public func computePath(game: GameState, allPaths: Bool = false){
         if game.winners != nil { return }
         var heap: [State] = [(0, game, [])]
         while !heap.isEmpty{
@@ -67,8 +68,11 @@ public final class BFS: GameAlgorithm{
                 let newState: State = 
                     (state.depth + 1, newGame, state.path + [move])
                 if newGame.winners != nil {
-                    path = newState.path
-                    return
+                    paths.append(newState.path)
+                    if !allPaths {
+                        path = newState.path
+                        return
+                    }
                 }
                 if self.heuristic.visit(game: newGame, cost: newState.depth){
                     continue 
