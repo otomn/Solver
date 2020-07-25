@@ -407,8 +407,8 @@ class Replace: Operation{
     }
     
     required convenience init?(_ description: String) {
-        if let p = Operation.parseBinaryString(sep: ">", value: description) {
-            self.init(ori:p.0, target: p.1)
+        if let (o, t) = Operation.parseBinaryString(sep: ">", value: description) {
+            self.init(ori: o, target: t)
         } else {
             return nil
         }
@@ -647,11 +647,13 @@ class Portal: Operation {
     }
     
     required convenience init?(_ description: String) {
-        if let p = Operation.parseBinary(sep: "-", value: description) {
-            self.init(inPos: p.0, outPos: p.1)
-        } else {
-            return nil
+        if let (i, o) = Operation.parseBinary(sep: "-", value: description) {
+            if o >= 0 && i > o {
+                self.init(inPos: i, outPos: o)
+                return
+            }
         }
+        return nil
     }
     
     override var description: String {
