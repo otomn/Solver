@@ -8,7 +8,7 @@
 
 import Foundation
 
-final public class CalculatorTheGame: GameState{
+public class CalculatorTheGame: GameState{
     
     public var player: Int = 0
     
@@ -38,7 +38,7 @@ final public class CalculatorTheGame: GameState{
                   ops: ops.compactMap(Operation.parse))
     }
     
-    init(value: Int, movesLeft: Int, goal: Int, ops: [Operation]) {
+    required init(value: Int, movesLeft: Int, goal: Int, ops: [Operation]) {
         self.current = value;
         self.movesLeft = movesLeft;
         self.goal = goal;
@@ -55,7 +55,7 @@ final public class CalculatorTheGame: GameState{
         }
     }
     
-    public convenience init?(input: () -> String?) {
+    public required convenience init?(input: () -> String?) {
         guard let initial = getInput(
             prompt: pure1("Initial: "), 
             failedMessage: "Not a number", 
@@ -84,7 +84,7 @@ final public class CalculatorTheGame: GameState{
         return "Player"
     }
     
-    public func move(player: Int, move: String) -> CalculatorTheGame? {
+    public func move(player: Int, move: String) -> Self? {
         if !isValidMove(move: move) { 
             return nil
         }
@@ -92,7 +92,7 @@ final public class CalculatorTheGame: GameState{
             return nil
         }
         let newOps = operations.map{ $0.copy() }
-        let newState = CalculatorTheGame(
+        let newState = Self.init(
             value: current, movesLeft: movesLeft - 1, goal: goal, ops: newOps)
         op.operate(state: newState)
         if newState.current == Operation.error || newState.movesLeft < 0 {
@@ -123,13 +123,7 @@ final public class CalculatorTheGame: GameState{
     }
 }
 
-protocol OperationP: LosslessStringConvertible {
-    func operate(state: CalculatorTheGame)
-    func operate(num: Int) -> Int
-    static func parse(_ description: String) -> Operation?
-}
-
-class Operation: OperationP {
+class Operation: LosslessStringConvertible {
     
     var description: String {
         return ""
@@ -138,6 +132,29 @@ class Operation: OperationP {
     var const: Int
     static let maxLen = 7
     static let error = Int.max
+    private static let operationsSet: [[Operation.Type]] = [[
+        Add.self, Subtract.self,
+        Multiply.self, Divide.self,
+        Append.self, Delete.self,
+        Power.self, Sign.self,
+        Replace.self, Reverse.self,
+        Sum.self, Shift.self,
+        Mirror.self, Increment.self,
+        Store.self, Paste.self,
+        Inverse.self, Portal.self
+    ], [
+        Add.self, Subtract.self,
+        Multiply.self, Divide.self,
+        Append.self, Delete.self,
+        Power.self, Sign.self,
+        Replace.self, Reverse.self,
+        Sum.self, Shift.self,
+        Mirror.self, Increment.self,
+        Store.self, Paste.self,
+        Inverse.self, Portal.self,
+        Sort.self, ToChar.self,
+        Cut.self
+    ]]
     
     init() {
         const = 0
@@ -163,19 +180,12 @@ class Operation: OperationP {
         return Self.init(description)!
     }
     
-    static func parse(_ description: String) -> Operation?{
-        let allSubClasses = [
-            Add.self, Subtract.self,
-            Multiply.self, Divide.self,
-            Append.self, Delete.self,
-            Power.self, Sign.self,
-            Replace.self, Reverse.self,
-            Sum.self, Shift.self,
-            Mirror.self, Increment.self,
-            Store.self, Paste.self,
-            Inverse.self, Portal.self
-        ] as [Operation.Type]
-        for c in allSubClasses {
+    static func parse(_ description: String) -> Operation? {
+        return parse(description, version: 0)
+    }
+    
+    static func parse(_ description: String, version: Int) -> Operation?{
+        for c in Operation.operationsSet[version] {
             if let op = c.init(description) {
                 if "\(op)" == description {
                     return op
@@ -358,8 +368,7 @@ class Power: Operation{
     }
     
     override func operate(num: Int) -> Int {
-        let result = pow(Double(num), Double(const))
-        return result.magnitude >= Double(Int.max) ? Operation.error : Int(result)
+        return pow(num, const) ?? Operation.error
     }
     
     required init?(_ description: String) {
@@ -405,10 +414,12 @@ class Replace: Operation{
     
     required convenience init?(_ description: String) {
         if let (o, t) = Operation.parseBinaryString(sep: ">", value: description) {
-            self.init(ori: o, target: t)
-        } else {
-            return nil
+            if Int(o) != nil && Int(t) != nil {
+                self.init(ori: o, target: t)
+                return
+            }
         }
+        return nil
     }
     
     override var description: String {
@@ -429,7 +440,8 @@ class Replace: Operation{
                 result.append(str.removeFirst())
             }
         }
-        return Int(result)!
+        return Int(result) ?? 0
+        // if the number is no longer valid, that means there is no digit left
     }
     
     func findMatch(str: String) -> Bool {
@@ -678,14 +690,6 @@ class Portal: Operation {
         let first = str[str[0]..<str[pos]]
         let d = str[str[pos]]
         let last = str[str[pos + 1]...str[str.count - 1]]
-        return Int(first + last)! + Int("\(d)")! * pow10(mag: outPos)
-    }
-    
-    func pow10(mag: Int) -> Int {
-        var result = "1"
-        for _ in 0 ..< mag {
-            result += "0"
-        }
-        return Int(result)!
+        return Int(first + last)! + Int("\(d)")! * pow(10, outPos)!
     }
 }

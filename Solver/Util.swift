@@ -138,6 +138,14 @@ func popFirst<T>(array: inout [T]) -> T?{
     return array.removeFirst()
 }
 
+func pow(_ base: Int, _ power: Int) -> Int?{
+    let result = pow(Double(base), Double(power))
+    if result >= Double(Int.max) {
+        return nil
+    }
+    return Int(result)
+}
+
 extension String {
     subscript(index: Int) -> String.Index{
         return self.index(startIndex, offsetBy: index)
