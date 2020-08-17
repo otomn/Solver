@@ -50,11 +50,11 @@ final public class CalculatorTheGame2: CalculatorTheGame{
             return (i, false)
         }
         // convert letters to number
-        let charCodes = input.uppercased().unicodeScalars.map{ $0.value - 65 }
+        let charCodes = input.uppercased().unicodeScalars.map{ Int($0.value) - 65 }
         if charCodes.reduce(false, { $0 || $1 > 25 || $1 < 0 }){
             return nil
         }
-        return (Int(charCodes.map{ "\(Int($0) / 3 + 1)" }.joined()) ?? 0, true)
+        return (Int(charCodes.map{ "\($0 / 3 + 1)" }.joined()) ?? 0, true)
     }
     
     static func playLoop2() {
