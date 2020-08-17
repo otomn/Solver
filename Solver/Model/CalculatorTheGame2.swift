@@ -85,8 +85,8 @@ final public class CalculatorTheGame2: CalculatorTheGame{
             for goal in goals {
                 let game: GameState = CalculatorTheGame(value: initial, movesLeft:  goal.1 ? maxMoves - 1 : maxMoves, goal: goal.0, ops: ops)
                 // CalculatorTheGameH is not designed to find all solutions
-                let heuristic = WinLoseH(game: game)!, allPaths = true
-//                let heuristic = CalculatorTheGameH(game: game)!, allPaths = false 
+//                let heuristic = WinLoseH(game: game)!, allPaths = true
+                let heuristic = CalculatorTheGameH(game: game)!, allPaths = false 
                 let algorithm = BFSHMulThread(game: game, heuristic: heuristic)
                 let start = Date()
                 algorithm.computePath(game: game, allPaths: allPaths)
@@ -115,7 +115,8 @@ extension Operation{
         Store.self, Paste.self,
         Inverse.self, Portal.self,
         Sort.self, Cut.self,
-        DeleteAt.self, InsertAt.self
+        DeleteAt.self, InsertAt.self,
+        Round.self
     ]
     
     static func parse2(_ description: String) -> Operation? {
@@ -176,10 +177,6 @@ class Cut: Replace {
 // Count from right to left starting from 0
 class DeleteAt: Operation {
     override var description: String { "d" + (const < 0 ? "" : "\(const)") }
-    
-    required override init(_ const: Int) {
-        super.init(const)
-    }
     
     required convenience init?(_ description: String) {
         if let s = Operation.parseUnaryString(target: "d", value: description) {
@@ -263,4 +260,42 @@ class InsertAt: Operation{
                 (0 ..< Operation.maxLen).map{ InsertAt.init(insert: const, at: $0) })
         }
     }
+}
+
+class Round: Operation{
+    
+    override var description: String { "round" + (const < 0 ? "" : "\(const)") }
+    
+    required convenience init?(_ description: String) {
+        if let s = Operation.parseUnaryString(target: "round", value: description) {
+            if s == "" {
+                self.init(-1)
+                return
+            }
+            if let i = Int(s) {
+                self.init(i)
+                return
+            }
+        }
+        return nil
+    }
+    
+    override func operate(num: Int) -> Int {
+        guard let base = pow(10, const) else {
+            return Operation.error
+        }
+        if num < base {
+            return Operation.error
+        }
+        return num / base * base + ((num % base >= base / 2) ? base : 0)
+    }
+    
+    override func parseExpand(state: CalculatorTheGame) {
+        if const == -1 {
+            state.operations.removeAll(where: { $0 is Round })
+            state.operations.append(contentsOf: 
+                (0 ..< Operation.maxLen).map(Round.init))
+        }
+    }
+    
 }
