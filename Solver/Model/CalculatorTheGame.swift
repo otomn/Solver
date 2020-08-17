@@ -195,16 +195,17 @@ class Operation: LosslessStringConvertible {
         return nil
     }
     
-    static func parseBinaryString(sep: Character, value: String)
+    static func parseBinaryString(sep: String, value: String)
         -> (String, String)?{
-        let splited = value.split(separator: sep).map(String.init)
+        let splited = 
+            value.split(separatorString: sep, omittingEmptySubsequences: false)
         if splited.count == 2 {
             return (splited[0], splited[1])
         }
         return nil
     }
     
-    static func parseBinary(sep: Character, value: String)
+    static func parseBinary(sep: String, value: String)
         -> (Int, Int)?{
         if let p = parseBinaryString(sep: sep, value: value) {
             if let a = Int(p.0), let b = Int(p.1) {
@@ -397,31 +398,10 @@ class Replace: Operation{
     override var description: String { "\(ori)>\(target)" }
     
     override func operate(num: Int) -> Int {
-        let key = ori
-        var str = "\(num)"
-        var result = ""
-        while str != "" {
-            if findMatch(str: str){
-                let start = str[key.count]
-                let end = str.endIndex
-                str = String(str[start ..< end])
-                result.append(target)
-            } else {
-                result.append(str.removeFirst())
-            }
-        }
-        return Int(result) ?? 0
+        return Int("\(num)"
+            .split(separatorString: ori, omittingEmptySubsequences: false)
+            .joined(separator: target)) ?? 0
         // if the number is no longer valid, that means there is no digit left
-    }
-    
-    func findMatch(str: String) -> Bool {
-        let key = ori
-        if str.count < key.count {
-            return false
-        }
-        let start = str.startIndex
-        let end = str.index(str.startIndex, offsetBy: key.count)
-        return str[start ..< end] == key
     }
 }
 
@@ -646,9 +626,9 @@ class Portal: Operation {
     
     func processPortal(_ str: String) -> Int {
         let pos = str.count - inPos - 1
-        let first = str[str[0]..<str[pos]]
+        let first = str[str.startIndex ..< str[pos]]
         let d = str[str[pos]]
-        let last = str[str[pos + 1]...str[str.count - 1]]
+        let last = str[str[pos + 1] ..< str.endIndex]
         return Int(first + last)! + Int("\(d)")! * pow(10, outPos)!
     }
 }

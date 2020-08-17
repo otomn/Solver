@@ -147,7 +147,30 @@ func pow(_ base: Int, _ power: Int) -> Int?{
 }
 
 extension String {
+    
     subscript(index: Int) -> String.Index{
         return self.index(startIndex, offsetBy: index)
+    }
+    
+    func split(separatorString: String, maxSplits: Int = Int.max, omittingEmptySubsequences: Bool = true) -> [String] {
+        var str = self
+        var result: [String] = []
+        var part = ""
+        while str.count > 0 && result.count < maxSplits {
+            if str.hasPrefix(separatorString) {
+                str = String(str[str[separatorString.count] ..< str.endIndex])
+                if !omittingEmptySubsequences || part != "" {
+                    result.append(part)
+                }
+                part = ""
+            } else {
+                part.append(str.removeFirst())
+            }
+        }
+        part += str
+        if !omittingEmptySubsequences || part != "" {
+            result.append(part)
+        }
+        return result
     }
 }
