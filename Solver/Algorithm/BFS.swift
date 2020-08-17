@@ -11,7 +11,6 @@ import Foundation
 public final class BFS: GameAlgorithm{
     
     var depth: Int
-    var path: [String] = []
     var paths: [[String]] = []
     let heuristic: GameHeuristic
     typealias State = (depth: Int, game: GameState, path: [String])
@@ -42,15 +41,17 @@ public final class BFS: GameAlgorithm{
     }
     
     public func makeMove(_ game: GameState) -> GameState? {
-        if path.isEmpty || !game.isValidMove(move: path[0]){
+        var first = paths.first?.first
+        if first == nil || !game.isValidMove(move: first!){
             computePath(game: game)
-            if path.isEmpty || !game.isValidMove(move: path[0]){
+            first = paths.first?.first
+            if first == nil || !game.isValidMove(move: first!){
                 print("No result")
                 return nil
             }
-            print(path)
+            print(paths.first!)
         }
-        return game.move(move: path.removeFirst())
+        return game.move(move: paths[0].removeFirst())
     }
     
     public func computePath(game: GameState, allPaths: Bool = false){
@@ -68,7 +69,6 @@ public final class BFS: GameAlgorithm{
                 if newGame.winners != nil {
                     paths.append(newState.path)
                     if !allPaths {
-                        path = newState.path
                         return
                     }
                 }
