@@ -43,10 +43,7 @@ public class CalculatorTheGame: GameState{
         self.movesLeft = movesLeft;
         self.goal = goal;
         self.operations = ops
-        if !ops.reduce(false, { $0 || $1 is Paste })
-            && ops.reduce(false, { $0 || $1 is Store }){
-            operations.append(Paste())
-        }
+        self.operations.forEach{ $0.parseExpand(state: self) }
         for op in ops {
             if let port = op as? Portal {
                 portal = port
@@ -125,14 +122,12 @@ public class CalculatorTheGame: GameState{
 
 class Operation: LosslessStringConvertible {
     
-    var description: String {
-        return ""
-    }
+    var description: String { "" }
     
     var const: Int
     static let maxLen = 7
     static let error = Int.max
-    private static let operationsSet: [[Operation.Type]] = [[
+    private static let operationSet: [Operation.Type] = [
         Add.self, Subtract.self,
         Multiply.self, Divide.self,
         Append.self, Delete.self,
@@ -142,19 +137,7 @@ class Operation: LosslessStringConvertible {
         Mirror.self, Increment.self,
         Store.self, Paste.self,
         Inverse.self, Portal.self
-    ], [
-        Add.self, Subtract.self,
-        Multiply.self, Divide.self,
-        Append.self, Delete.self,
-        Power.self, Sign.self,
-        Replace.self, Reverse.self,
-        Sum.self, Shift.self,
-        Mirror.self, Increment.self,
-        Store.self, Paste.self,
-        Inverse.self, Portal.self,
-        Sort.self, ToChar.self,
-        Cut.self
-    ]]
+    ]
     
     init() {
         const = 0
@@ -176,16 +159,21 @@ class Operation: LosslessStringConvertible {
         return num
     }
     
+    /// Executed when a list of operations is parsed for the state
+    /// - Parameter state: The state to be updated
+    func parseExpand(state: CalculatorTheGame){
+    }
+    
     func copy() -> Operation {
         return Self.init(description)!
     }
     
     static func parse(_ description: String) -> Operation? {
-        return parse(description, version: 0)
+        return parse(description: description, in: operationSet)
     }
     
-    static func parse(_ description: String, version: Int) -> Operation?{
-        for c in Operation.operationsSet[version] {
+    static func parse(description: String, in set: [Operation.Type]) -> Operation?{
+        for c in set {
             if let op = c.init(description) {
                 if "\(op)" == description {
                     return op
@@ -230,9 +218,7 @@ class Operation: LosslessStringConvertible {
 // /1
 class Divide: Operation{
     
-    override var description: String {
-        return "/\(const)"
-    }
+    override var description: String { "/\(const)" }
     
     override func operate(num: Int) -> Int {
         if num % const != 0 {
@@ -253,9 +239,7 @@ class Divide: Operation{
 // *1
 class Multiply: Operation{
     
-    override var description: String {
-        return "*\(const)"
-    }
+    override var description: String { "*\(const)" }
     
     override func operate(num: Int) -> Int {
         return num * const
@@ -273,9 +257,7 @@ class Multiply: Operation{
 // +1
 class Add: Operation{
     
-    override var description: String {
-        return "+\(const)"
-    }
+    override var description: String { "+\(const)" }
     
     override func operate(num: Int) -> Int {
         return num + const
@@ -293,9 +275,7 @@ class Add: Operation{
 // -1
 class Subtract: Operation{
     
-    override var description: String {
-        return "-\(const)"
-    }
+    override var description: String { "-\(const)" }
     
     override func operate(num: Int) -> Int {
         return num - const
@@ -313,9 +293,7 @@ class Subtract: Operation{
 // <<
 class Delete: Operation{
     
-    override var description: String {
-        return "<<"
-    }
+    override var description: String { "<<" }
     
     override func operate(num: Int) -> Int {
         var str = String(num)
@@ -335,9 +313,7 @@ class Delete: Operation{
 // 1
 class Append: Operation{
     
-    override var description: String {
-        return "\(const)"
-    }
+    override var description: String { "\(const)" }
     
     override func operate(num: Int) -> Int {
         if const < 0 { 
@@ -363,9 +339,7 @@ class Append: Operation{
 // ^1 (x^1 in the game)
 class Power: Operation{
     
-    override var description: String {
-        return "^\(const)"
-    }
+    override var description: String { "^\(const)" }
     
     override func operate(num: Int) -> Int {
         return pow(num, const) ?? Operation.error
@@ -383,9 +357,7 @@ class Power: Operation{
 // +- (+/- in the game)
 class Sign: Operation{
     
-    override var description: String {
-        return "+-"
-    }
+    override var description: String { "+-" }
     
     override func operate(num: Int) -> Int {
         return -num
@@ -422,9 +394,7 @@ class Replace: Operation{
         return nil
     }
     
-    override var description: String {
-        return "\(ori)>\(target)"
-    }
+    override var description: String { "\(ori)>\(target)" }
     
     override func operate(num: Int) -> Int {
         let key = ori
@@ -458,9 +428,7 @@ class Replace: Operation{
 // r (Reverse in the game)
 class Reverse: Operation{
     
-    override var description: String {
-        return "r"
-    }
+    override var description: String { "r" }
     
     override func operate(num: Int) -> Int {
         return Int(String("\(num.magnitude)".reversed()))! * num.signum()
@@ -478,9 +446,7 @@ class Reverse: Operation{
 // sum
 class Sum: Operation{
     
-    override var description: String {
-        return "sum"
-    }
+    override var description: String { "sum" }
     
     override func operate(num: Int) -> Int {
         var sum = 0
@@ -509,9 +475,7 @@ class Shift: Operation{
         super.init()
     }
     
-    override var description: String {
-        return left ? "<" : ">"
-    }
+    override var description: String { left ? "<" : ">" }
     
     required convenience init?(_ description: String) {
         if description == "<" {
@@ -540,9 +504,7 @@ class Shift: Operation{
 // m (Mirror in the game)
 class Mirror: Operation {
     
-    override var description: String {
-        return "m"
-    }
+    override var description: String { "m" }
     
     override func operate(num: Int) -> Int {
         let str = "\(num)" + String("\(num.magnitude)".reversed())
@@ -561,9 +523,7 @@ class Mirror: Operation {
 // ++ ([+] in the game)
 class Increment: Operation {
     
-    override var description: String {
-        return "++\(const)"
-    }
+    override var description: String { "++\(const)" }
     
     override func operate(state: CalculatorTheGame) {
         state.operations.forEach{ if !($0 is Increment) { $0.const += const } }
@@ -581,12 +541,16 @@ class Increment: Operation {
 // st (hold store in the game)
 class Store: Operation {
     
-    override var description: String {
-        return "st"
-    }
+    override var description: String { "st" }
     
     override func operate(state: CalculatorTheGame) {
         state.operations.forEach{ if $0 is Paste { $0.const = state.current } }
+    }
+    
+    override func parseExpand(state: CalculatorTheGame) {
+        if !state.operations.contains(where: { $0 is Paste }){
+            state.operations.append(Paste())
+        }
     }
     
     required init?(_ description: String) {
@@ -601,9 +565,7 @@ class Store: Operation {
 // ps (tap store in the game)
 class Paste: Append {
     
-    override var description: String {
-        return "ps\(const)"
-    }
+    override var description: String { "ps\(const)" }
     
     init() {
         super.init(-1)
@@ -621,9 +583,7 @@ class Paste: Append {
 // inv (inverse in the game)
 class Inverse: Operation {
     
-    override var description: String {
-        return "inv"
-    }
+    override var description: String { "inv" }
     
     override func operate(num: Int) -> Int {
         let str = "\(num)"
@@ -644,6 +604,7 @@ class Inverse: Operation {
 }
 
 // 1-0 (portals in the game)
+// Count from right to left starting from 0
 class Portal: Operation {
     
     let inPos: Int
@@ -665,9 +626,7 @@ class Portal: Operation {
         return nil
     }
     
-    override var description: String {
-        return "\(inPos)-\(outPos)"
-    }
+    override var description: String { "\(inPos)-\(outPos)" }
     
     override func operate(state: CalculatorTheGame) {
         var portaled = operate(num: state.current)
