@@ -95,7 +95,7 @@ public final class AStarSearch: GameAlgorithm{
         defer{
             heapLock.unlock()
         }
-        for i in 0..<heap.count{
+        for i in 0 ..< heap.count{
             /// All states before i are greater than the score, insert here
             if heap[i][0].score < state.score {
                 heap.insert([state], at: i)

@@ -49,7 +49,7 @@ public final class PyraminxManhattanH: GameHeuristic{
     
     public func getUid(game: Pyraminx) -> UInt64{
         var uid: UInt64 = 0
-        for i in 0...3{
+        for i in 0 ... 3{
             uid += UInt64(game.faces[i].tiles.rawValue) << (i * 16)
         }
         return uid

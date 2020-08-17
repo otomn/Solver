@@ -172,7 +172,7 @@ CustomStringConvertible, Equatable, Collection where Rawtype:UnsignedInteger{
     
     public init<A: BinaryInteger>(itemSize: UInt8, source: [A]){
         self.init(itemSize: itemSize)
-        for i in 0..<source.count {
+        for i in 0 ..< source.count {
             self[i] = source[i]
         }
     }

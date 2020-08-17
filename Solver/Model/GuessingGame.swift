@@ -44,7 +44,7 @@ final public class GuessingGame: GameState {
     }
     
     public var moves: [String]{
-        return Array(minNum...maxNum).map(String.init)
+        return Array(minNum ... maxNum).map(String.init)
     }
     
     public var winners: [Int]? {
@@ -52,7 +52,7 @@ final public class GuessingGame: GameState {
     }
     
     public var description: String {
-        return "\(minNum)...\(maxNum)"
+        return "\(minNum) ... \(maxNum)"
     }
     
     init(playerSymbols: [String], min: Int, max: Int, num: Int) {

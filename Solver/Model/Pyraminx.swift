@@ -29,7 +29,7 @@ public final class Pyraminx: GameState {
     
     public var description: String {
         var result = ""
-        for i in 0...3{
+        for i in 0 ... 3{
             result += faces[i].descriptInOrder(tip: tips[i])
         }
         return result
@@ -92,7 +92,7 @@ public final class Pyraminx: GameState {
         let direction = Direction(String(move.last!))!
         
         let newState = Pyraminx(tips: tips, faces: faces)
-        for i in 0...2{
+        for i in 0 ... 2{
             let sourceColour = tip.nextTo(origin: i, to: .still)
             let targetColour = tip.nextTo(origin: i, to: direction)
             let sourceFace = faces[sourceColour.index]
@@ -179,7 +179,7 @@ public struct Tip {
     
     /// Last colour is the colour of the tip
     init(colours: [Colour]){
-        for i in 0...3 {
+        for i in 0 ... 3 {
             self.colours[i] = colours[i].rawValue
         }
     }
@@ -202,7 +202,7 @@ public struct Tip {
             inputStream: input
             )
         if colours.count != 3 { return nil }
-        for i in 0...2 {
+        for i in 0 ... 2 {
             self.colours[i] = colours[i].rawValue
         }
         self.colours[3] = (15 - hasColour.rawValue).trailingZeroBitCount
@@ -244,7 +244,7 @@ public struct Face: CustomStringConvertible{
         var result = "Face \(colour)("
         for firstColour in Colour.colours {
             if firstColour == colour { continue }
-            for secondColour in Colour.colours[Int(firstColour.rawValue)...3] {
+            for secondColour in Colour.colours[Int(firstColour.rawValue) ... 3] {
                 if secondColour == colour { continue }
                 result += " \(firstColour)\(secondColour):\(self[firstColour, secondColour])"
             }
@@ -312,7 +312,7 @@ public struct Face: CustomStringConvertible{
     }
     
     func doInOrder(tip: Tip, do job: (Colour, Colour) -> Bool) -> Bool{
-        for i in 0...2 {
+        for i in 0 ... 2 {
             let first = tip.nextTo(origin: i, to: .still)
             let second = tip.nextTo(origin: i, to: .right)
             if !job(first, first){ return false }
