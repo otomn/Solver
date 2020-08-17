@@ -90,19 +90,6 @@ func pure<T>(_ val: T) -> T{
     return val
 }
 
-/// Returns a function that takes 0 input and returns `val`
-///
-/// ```
-/// var p = pure(5)
-/// print(p()) // prints 5
-/// ```
-///
-/// - Parameter val: The value where the returned function will return
-/// - Returns: A function that takes 0 input and returns `val`
-func pure0<T>(_ val: T) -> () -> T{
-    return { val }
-}
-
 /// Returns a function that takes 1 input and returns `val`
 ///
 /// ```
@@ -114,19 +101,6 @@ func pure0<T>(_ val: T) -> () -> T{
 /// - Returns: A function that takes 1 input and returns `val`
 func pure1<T>(_ val: T) -> (Any) -> T{
     return { _ in val}
-}
-
-/// Returns a function that takes 2 input and returns `val`
-///
-/// ```
-/// var p = pure(5)
-/// print(p(0, 1)) // prints 5
-/// ```
-///
-/// - Parameter val: The value where the returned function will return
-/// - Returns: A function that takes 1 input and returns `val`
-func pure2<T>(_ val: T) -> (Any, Any) -> T{
-    return { _, _ in val}
 }
 
 /// Return and remove the first element of the array
