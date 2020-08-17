@@ -54,11 +54,7 @@ final public class CalculatorTheGame2: CalculatorTheGame{
         if charCodes.reduce(false, { $0 || $1 > 25 || $1 < 0 }){
             return nil
         }
-        var result = 0
-        for i in 0..<charCodes.count {
-            result += pow(10, i)! * (Int(charCodes[i]) / 3 + 1)
-        }
-        return (result, true)
+        return (Int(charCodes.map{ "\(Int($0) / 3 + 1)" }.joined()) ?? 0, true)
     }
     
     static func playLoop2() {
@@ -118,8 +114,8 @@ extension Operation{
         Mirror.self, Increment.self,
         Store.self, Paste.self,
         Inverse.self, Portal.self,
-        Sort.self, ToChar.self,
-        Cut.self, DeleteAt.self
+        Sort.self, Cut.self,
+        DeleteAt.self, InsertAt.self
     ]
     
     static func parse2(_ description: String) -> Operation? {
@@ -159,18 +155,6 @@ class Sort: Operation{
     
 }
 
-// abc (does nothing in this modal)
-class ToChar: Operation {
-    override var description: String { "abc" }
-    
-    required init?(_ description: String) {
-        if description != "abc" {
-            return nil
-        }
-        super.init()
-    }
-}
-
 // cut0
 class Cut: Replace {
     override var description: String { "cut\(ori)" }
@@ -186,7 +170,9 @@ class Cut: Replace {
     }
 }
 
-// delete
+// input as delete
+// steps shown as delete1
+// delete 1 in the game
 // Count from right to left starting from 0
 class DeleteAt: Operation {
     override var description: String { "delete" + (const < 0 ? "" : "\(const)") }
@@ -222,7 +208,59 @@ class DeleteAt: Operation {
         if const == -1 {
             state.operations.removeAll(where: { $0 is DeleteAt })
             state.operations.append(contentsOf: 
-                (0..<Operation.maxLen).map(DeleteAt.init))
+                (0 ..< Operation.maxLen).map(DeleteAt.init))
+        }
+    }
+}
+
+// input as insert2
+// steps shown as insert2at2 as insert 2 at position 2
+// insert 2 in the game
+// Count from right to left starting from 0
+class InsertAt: Operation{
+    
+    let pos: Int
+    
+    override var description: String {
+        "insert\(const)" + (pos < 0 ? "" : "at\(pos)")
+    }
+    
+    init(insert const: Int, at pos: Int){
+        self.pos = pos
+        super.init(const)
+    }
+    
+    required convenience init?(_ description: String) {
+        guard let constAtPos = 
+            Operation.parseUnaryString(target: "insert", value: description) else {
+            return nil
+        }
+        if let const = Int(constAtPos) {
+            self.init(insert: const, at: -1)
+            return
+        }
+        if let (const, pos) = Operation.parseBinary(sep: "at", value: constAtPos){
+            self.init(insert: const, at: pos)
+            return
+        }
+        return nil
+    }
+    
+    override func operate(num: Int) -> Int {
+        let s = "\(num)"
+        if s.count >= pos {
+            let front = s[s.startIndex ..< s[s.count - pos]]
+            let back = s[s[s.count - pos] ..< s.endIndex ]
+            return Int(String(front + "\(const)" + back)) ?? Operation.error
+        }
+        return Operation.error
+    }
+    
+    override func parseExpand(state: CalculatorTheGame) {
+        if pos == -1 {
+            state.operations.removeAll{ $0 is InsertAt && $0.const == const }
+            state.operations.append(contentsOf: 
+                (0 ..< Operation.maxLen).map{ InsertAt.init(insert: const, at: $0) })
         }
     }
 }
