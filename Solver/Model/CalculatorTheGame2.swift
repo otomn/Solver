@@ -170,19 +170,19 @@ class Cut: Replace {
     }
 }
 
-// input as delete
-// steps shown as delete1
+// input as d
+// steps shown as d1
 // delete 1 in the game
 // Count from right to left starting from 0
 class DeleteAt: Operation {
-    override var description: String { "delete" + (const < 0 ? "" : "\(const)") }
+    override var description: String { "d" + (const < 0 ? "" : "\(const)") }
     
     required override init(_ const: Int) {
         super.init(const)
     }
     
     required convenience init?(_ description: String) {
-        if let s = Operation.parseUnaryString(target: "delete", value: description) {
+        if let s = Operation.parseUnaryString(target: "d", value: description) {
             if s == "" {
                 self.init(-1)
                 return
@@ -213,8 +213,8 @@ class DeleteAt: Operation {
     }
 }
 
-// input as insert2
-// steps shown as insert2at2 as insert 2 at position 2
+// input as i2
+// steps shown as i2at2 as insert 2 at position 2
 // insert 2 in the game
 // Count from right to left starting from 0
 class InsertAt: Operation{
@@ -222,7 +222,7 @@ class InsertAt: Operation{
     let pos: Int
     
     override var description: String {
-        "insert\(const)" + (pos < 0 ? "" : "at\(pos)")
+        "i\(const)" + (pos < 0 ? "" : "at\(pos)")
     }
     
     init(insert const: Int, at pos: Int){
@@ -232,7 +232,7 @@ class InsertAt: Operation{
     
     required convenience init?(_ description: String) {
         guard let constAtPos = 
-            Operation.parseUnaryString(target: "insert", value: description) else {
+            Operation.parseUnaryString(target: "i", value: description) else {
             return nil
         }
         if let const = Int(constAtPos) {
