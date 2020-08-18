@@ -116,7 +116,8 @@ extension Operation{
         Inverse.self, Portal.self,
         Sort.self, Cut.self,
         DeleteAt.self, InsertAt.self,
-        Round.self
+        Round.self,
+        AddAt.self, SubtractAt.self
     ]
     
     static func parse2(_ description: String) -> Operation? {
@@ -171,42 +172,92 @@ class Cut: Replace {
     }
 }
 
-// input as d
-// steps shown as d1
-// delete 1 in the game
-// Count from right to left starting from 0
-class DeleteAt: Operation {
-    override var description: String { "d" + (const < 0 ? "" : "\(const)") }
+class OpAt: Operation{
+    
+    class var ommitAt: Bool { false }
+    class var noConst: Bool { false }
+    class var code: String { "?" }
+    class var op: (Int, Int) -> (Int) { (+) }
+    let pos: Int
+    
+    override var description: String {
+        "\(Self.code)"
+            + (const < 0 ? "" : "\(const)")
+            + (pos < 0 ? (Self.ommitAt ? "" : "at") : "at\(pos)")
+    }
+    
+    required init(const: Int, at pos: Int) {
+        self.pos = pos
+        super.init(const)
+    }
     
     required convenience init?(_ description: String) {
-        if let s = Operation.parseUnaryString(target: "d", value: description) {
-            if s == "" {
-                self.init(-1)
-                return
-            }
-            if let i = Int(s) {
-                self.init(i)
-                return
-            }
+        guard let constAtPos = 
+            Operation.parseUnaryString(target: Self.code, value: description) else {
+            return nil
         }
-        return nil
+        let splited = 
+            constAtPos.split(separatorString: "at", omittingEmptySubsequences: false)
+        if splited.count > 2 || splited.count == 1 && !Self.ommitAt {
+            return nil
+        }
+        let constStr = splited[0]
+        let posStr = splited.count == 1 ? "" : splited[1]
+        let const = Int(constStr) ?? -1
+        let pos = Int(posStr) ?? -1
+        if const < 0 && (!Self.noConst || constStr != "")
+            || pos < 0 && posStr != "" {
+            return nil
+        }
+        self.init(const: const, at: pos)
     }
     
     override func operate(num: Int) -> Int {
-        var s = "\(num)"
-        if s.count > const {
-            s.remove(at: s[s.count - const - 1])
-            return Int(s) ?? Operation.error
+        let s = "\(num)"
+        let idxAfter = s.count - pos
+        let idxBefore = idxAfter - 1
+        if idxAfter < 0 {
+            return Operation.error
         }
-        return Operation.error
+        var front = ""
+        var digit = ""
+        let back = String(s[s[idxAfter] ..< s.endIndex])
+        if idxBefore >= 0 {
+            front = String(s[s.startIndex ..< s[idxBefore]])
+            digit = String(s[s[idxBefore] ..< s[idxAfter]])
+        }
+        return operate(front: front, digit: digit, back: back)
+    }
+    
+    func operate(front: String, digit: String, back: String) -> Int {
+        guard let digitNum = Int(digit) else {
+            return Operation.error
+        }
+        var digitResult = (Self.op(digitNum, const) % 10 + 10) % 10
+        return Int("\(front)\(digitResult)\(back)") ?? Operation.error
     }
     
     override func parseExpand(state: CalculatorTheGame) {
-        if const == -1 {
-            state.operations.removeAll(where: { $0 is DeleteAt })
+        if pos == -1 {
+            state.operations.removeAll{ $0 is Self && $0.const == const}
             state.operations.append(contentsOf: 
-                (0 ..< Operation.maxLen).map(DeleteAt.init))
+                (0 ..< Operation.maxLen).map{ Self.init(const: const, at: $0) })
         }
+    }
+}
+
+// input as d
+// steps shown as dat1
+// delete in the game
+// Count from right to left starting from 0
+class DeleteAt: OpAt {
+    
+    override class var ommitAt: Bool { true }
+    override class var noConst: Bool { true }
+    override class var code: String { "d" }
+    
+    override func operate(front: String, digit: String, back: String) -> Int {
+        return digit == "" ? Operation.error : Int(front + back) ?? 0
     }
 }
 
@@ -214,51 +265,13 @@ class DeleteAt: Operation {
 // steps shown as i2at2 as insert 2 at position 2
 // insert 2 in the game
 // Count from right to left starting from 0
-class InsertAt: Operation{
+class InsertAt: OpAt{
     
-    let pos: Int
+    override class var ommitAt: Bool { true }
+    override class var code: String { "i" }
     
-    override var description: String {
-        "i\(const)" + (pos < 0 ? "" : "at\(pos)")
-    }
-    
-    init(insert const: Int, at pos: Int){
-        self.pos = pos
-        super.init(const)
-    }
-    
-    required convenience init?(_ description: String) {
-        guard let constAtPos = 
-            Operation.parseUnaryString(target: "i", value: description) else {
-            return nil
-        }
-        if let const = Int(constAtPos) {
-            self.init(insert: const, at: -1)
-            return
-        }
-        if let (const, pos) = Operation.parseBinary(sep: "at", value: constAtPos){
-            self.init(insert: const, at: pos)
-            return
-        }
-        return nil
-    }
-    
-    override func operate(num: Int) -> Int {
-        let s = "\(num)"
-        if s.count >= pos {
-            let front = s[s.startIndex ..< s[s.count - pos]]
-            let back = s[s[s.count - pos] ..< s.endIndex ]
-            return Int(String(front + "\(const)" + back)) ?? Operation.error
-        }
-        return Operation.error
-    }
-    
-    override func parseExpand(state: CalculatorTheGame) {
-        if pos == -1 {
-            state.operations.removeAll{ $0 is InsertAt && $0.const == const }
-            state.operations.append(contentsOf: 
-                (0 ..< Operation.maxLen).map{ InsertAt.init(insert: const, at: $0) })
-        }
+    override func operate(front: String, digit: String, back: String) -> Int {
+        return Int(front + digit + "\(const)" + back) ?? Operation.error
     }
 }
 
@@ -297,5 +310,14 @@ class Round: Operation{
                 (0 ..< Operation.maxLen).map(Round.init))
         }
     }
-    
+}
+
+class AddAt: OpAt{
+    override class var op: (Int, Int) -> Int { (+) }
+    override class var code: String { "+" }
+}
+
+class SubtractAt: OpAt{
+    override class var op: (Int, Int) -> Int { (-) }
+    override class var code: String { "-" }
 }
