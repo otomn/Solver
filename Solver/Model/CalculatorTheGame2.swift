@@ -116,7 +116,7 @@ extension Operation{
         Inverse.self, Portal.self,
         Sort.self, Cut.self,
         DeleteAt.self, InsertAt.self,
-        Round.self,
+        Round.self, ShiftN.self,
         AddAt.self, SubtractAt.self
     ]
     
@@ -233,7 +233,7 @@ class OpAt: Operation{
         guard let digitNum = Int(digit) else {
             return Operation.error
         }
-        var digitResult = (Self.op(digitNum, const) % 10 + 10) % 10
+        let digitResult = (Self.op(digitNum, const) % 10 + 10) % 10
         return Int("\(front)\(digitResult)\(back)") ?? Operation.error
     }
     
@@ -307,7 +307,7 @@ class Round: Operation{
         if const == -1 {
             state.operations.removeAll(where: { $0 is Round })
             state.operations.append(contentsOf: 
-                (0 ..< Operation.maxLen).map(Round.init))
+                (1 ..< Operation.maxLen).map(Round.init))
         }
     }
 }
@@ -321,3 +321,41 @@ class SubtractAt: OpAt{
     override class var op: (Int, Int) -> Int { (-) }
     override class var code: String { "-" }
 }
+
+class ShiftN: Shift{
+    
+    override var description: String { "shift" + (const < 0 ? "" : "\(const)") }
+    
+    required convenience init(pos: Int) {
+        self.init(shiftLeft: true)
+        self.const = pos
+    }
+    
+    required convenience init?(_ description: String) {
+        if let s = Operation.parseUnaryString(target: "shift", value: description) {
+            let pos = Int(s) ?? -1
+            if pos < 0 && s != "" {
+                return nil
+            }
+            self.init(pos: pos)
+        } else {
+            return nil
+        }
+    }
+    
+    override func operate(num: Int) -> Int {
+        if const >= "\(num)".count {
+            return Operation.error
+        }
+        return (0 ..< const).reduce(num){ n,_ in super.operate(num: n) }
+    }
+    
+    override func parseExpand(state: CalculatorTheGame) {
+        if const == -1 {
+            state.operations.removeAll(where: { $0 is ShiftN })
+            state.operations.append(contentsOf: 
+                (0 ..< Operation.maxLen).map(ShiftN.init))
+        }
+    }
+}
+
