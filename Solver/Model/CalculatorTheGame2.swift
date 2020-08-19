@@ -159,16 +159,22 @@ class Sort: Operation{
 
 // cut0
 class Cut: Replace {
-    override var description: String { "cut\(ori)" }
+    override var description: String { "cut\(const)" }
     
     required init?(_ description: String) {
         if let i = Operation.parseUnaryString(target: "cut", value: description) {
-            if Int(i) != nil {
+            if let num = Int(i) {
                 super.init(ori: i, target: "")
+                const = num
                 return
             }
         } 
         return nil
+    }
+    
+    override func operate(num: Int) -> Int {
+        ori = "\(const)"
+        return super.operate(num: num)
     }
 }
 
