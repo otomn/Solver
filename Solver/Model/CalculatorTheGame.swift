@@ -504,9 +504,13 @@ class Mirror: Operation {
 class Increment: Operation {
     
     override var description: String { "++\(const)" }
+    let ommitedClasses: [Operation.Type] = [
+        Increment.self, Round.self, ShiftN.self
+    ]
     
     override func operate(state: CalculatorTheGame) {
-        state.operations.forEach{ if !($0 is Increment) { $0.const += const } }
+        state.operations.forEach{ op in if !ommitedClasses.contains(where: 
+            { $0 == type(of: op) }) { op.const += const } }
     }
     
     required init?(_ description: String) {
