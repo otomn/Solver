@@ -115,7 +115,10 @@ public class CalculatorTheGame: GameState{
 
 class Operation: LosslessStringConvertible {
     
-    var description: String { "" }
+    class var noConst: Bool { false }
+    class var code: String { "?" }
+    class var op: (Int, Int) -> (Int) { { n, _ in return n } }
+    var description: String { "\(Self.code)" + (Self.noConst ? "" : "\(const)") }
     
     var const: Int
     static let maxLen = 7
@@ -126,22 +129,33 @@ class Operation: LosslessStringConvertible {
         Append.self, Delete.self,
         Power.self, Sign.self,
         Replace.self, Reverse.self,
-        Sum.self, Shift.self,
+        Sum.self, 
+        ShiftLeft.self, ShiftRight.self,
         Mirror.self, Increment.self,
         Store.self, Paste.self,
         Inverse.self, Portal.self
     ]
     
     init() {
-        const = 0
+        const = -1
     }
     
     init(_ const: Int) {
         self.const = const
     }
     
-    required init?(_ description: String) {
-        const = 0
+    required convenience init?(_ description: String) {
+        if Self.noConst && description == Self.code {
+            self.init()
+        } else if !Self.noConst, let i = 
+            Operation.parseUnary(target: Self.code, value: description) {
+            if i < 0 {
+                return nil
+            }
+            self.init(i)
+        } else {
+            return nil
+        }
     }
     
     func operate(state: CalculatorTheGame) {
@@ -149,7 +163,7 @@ class Operation: LosslessStringConvertible {
     }
     
     func operate(num: Int) -> Int {
-        return num
+        return Self.op(num, const)
     }
     
     /// Called on each operation after a move is made
@@ -217,7 +231,7 @@ class Operation: LosslessStringConvertible {
 // /1
 class Divide: Operation{
     
-    override var description: String { "/\(const)" }
+    override class var code: String { "/" }
     
     override func operate(num: Int) -> Int {
         if num % const != 0 {
@@ -225,94 +239,41 @@ class Divide: Operation{
         }
         return num / const
     }
-    
-    required init?(_ description: String) {
-        if let i = Operation.parseUnary(target: "/", value: description) {
-            super.init(i)
-        } else {
-            return nil
-        }
-    }
 }
 
 // *1
 class Multiply: Operation{
-    
-    override var description: String { "*\(const)" }
-    
-    override func operate(num: Int) -> Int {
-        return num * const
-    }
-    
-    required init?(_ description: String) {
-        if let i = Operation.parseUnary(target: "*", value: description) {
-            super.init(i)
-        } else {
-            return nil
-        }
-    }
+    override class var code: String { "*" }
+    override class var op: (Int, Int) -> (Int) { (*) }
 }
 
 // +1
 class Add: Operation{
-    
-    override var description: String { "+\(const)" }
-    
-    override func operate(num: Int) -> Int {
-        return num + const
-    }
-    
-    required init?(_ description: String) {
-        if let i = Operation.parseUnary(target: "+", value: description) {
-            super.init(i)
-        } else {
-            return nil
-        }
-    }
+    override class var code: String { "+" }
+    override class var op: (Int, Int) -> (Int) { (+) }
 }
 
 // -1
 class Subtract: Operation{
-    
-    override var description: String { "-\(const)" }
-    
-    override func operate(num: Int) -> Int {
-        return num - const
-    }
-    
-    required init?(_ description: String) {
-        if let i = Operation.parseUnary(target: "-", value: description) {
-            super.init(i)
-        } else {
-            return nil
-        }
-    }
+    override class var code: String { "-" }
+    override class var op: (Int, Int) -> (Int) { (-) }
 }
 
 // <<
 class Delete: Operation{
-    
-    override var description: String { "<<" }
+    override class var code: String { "<<" }
+    override class var noConst: Bool { true }
     
     override func operate(num: Int) -> Int {
         var str = String(num)
         str.removeLast()
         return Int(str) ?? 0
     }
-    
-    required init?(_ description: String) {
-        if description == "<<" {
-            super.init()
-        } else {
-            return nil
-        }
-    }
 }
 
 // 1
 class Append: Operation{
-    
-    override var description: String { "\(const)" }
+    override class var code: String { "" }
     
     override func operate(num: Int) -> Int {
         if const < 0 { 
@@ -321,58 +282,28 @@ class Append: Operation{
         let str = String(num) + String(const)
         return str.count > Operation.maxLen ? Operation.error : Int(str)!
     }
-    
-    override init(_ const: Int) {
-        super.init(const)
-    }
-    
-    required init?(_ description: String) {
-        if let i = Int(description) {
-            super.init(i)
-        } else {
-            return nil
-        }
-    }
 }
 
 // ^1 (x^1 in the game)
 class Power: Operation{
-    
-    override var description: String { "^\(const)" }
-    
-    override func operate(num: Int) -> Int {
-        return pow(num, const) ?? Operation.error
-    }
-    
-    required init?(_ description: String) {
-        if let i = Operation.parseUnary(target: "^", value: description) {
-            super.init(i)
-        } else {
-            return nil
-        }
-    }
+    override class var code: String { "^" }
+    override class var op: (Int, Int) -> (Int){ { pow($0, $1) ?? Operation.error } }
 }
 
 // +- (+/- in the game)
 class Sign: Operation{
-    
-    override var description: String { "+-" }
+    override class var code: String { "+-" }
+    override class var noConst: Bool { true }
     
     override func operate(num: Int) -> Int {
         return -num
-    }
-    
-    required init?(_ description: String) {
-        if description == "+-" {
-            super.init()
-        } else {
-            return nil
-        }
     }
 }
 
 // 1>2 (1=>2 in the game)
 class Replace: Operation{
+    
+    override var description: String { "\(ori)>\(target)" }
     
     var ori: String
     var target: String
@@ -393,8 +324,6 @@ class Replace: Operation{
         return nil
     }
     
-    override var description: String { "\(ori)>\(target)" }
-    
     override func operate(num: Int) -> Int {
         return Int("\(num)"
             .split(separatorString: ori, omittingEmptySubsequences: false)
@@ -405,26 +334,18 @@ class Replace: Operation{
 
 // r (Reverse in the game)
 class Reverse: Operation{
-    
-    override var description: String { "r" }
+    override class var code: String { "r" }
+    override class var noConst: Bool { true }
     
     override func operate(num: Int) -> Int {
         return Int(String("\(num.magnitude)".reversed()))! * num.signum()
-    }
-    
-    required init?(_ description: String) {
-        if description == "r" {
-            super.init()
-        } else {
-            return nil
-        }
     }
 }
 
 // sum
 class Sum: Operation{
-    
-    override var description: String { "sum" }
+    override class var code: String { "sum" }
+    override class var noConst: Bool { true }
     
     override func operate(num: Int) -> Int {
         var sum = 0
@@ -433,75 +354,49 @@ class Sum: Operation{
         }
         return num.signum() * sum
     }
-    
-    required init?(_ description: String) {
-        if description == "sum" {
-            super.init()
-        } else {
-            return nil
-        }
-    }
 }
 
-// < or > (shift< or shift> in the game)
-class Shift: Operation{
-    
-    var left: Bool
-    
-    init(shiftLeft: Bool) {
-        left = shiftLeft
-        super.init()
-    }
-    
-    override var description: String { left ? "<" : ">" }
-    
-    required convenience init?(_ description: String) {
-        if description == "<" {
-            self.init(shiftLeft: true)
-        } else if description == ">" {
-            self.init(shiftLeft: false)
-        } else {
-            return nil
-        }
-    }
+// < (shift< in the game)
+class ShiftLeft: Operation{
+    override class var code: String { "<" }
+    override class var noConst: Bool { true }
     
     override func operate(num: Int) -> Int {
         var str = "\(num.magnitude)"
-        if left {
-            str = str + "\(str.first!)"
-            str.removeFirst()
-        } else {
-            str = "\(str.last!)" + str
-            str.removeLast()
-        }
+        str = str + "\(str.first!)"
+        str.removeFirst()
         return num.signum() * (Int(str) ?? 0)
     }
+}
+
+// > (shift> in the game)
+class ShiftRight: Operation{
+    override class var code: String { ">" }
+    override class var noConst: Bool { true }
     
+    override func operate(num: Int) -> Int {
+        var str = "\(num.magnitude)"
+        str = "\(str.last!)" + str
+        str.removeLast()
+        return num.signum() * (Int(str) ?? 0)
+    }
 }
 
 // m (Mirror in the game)
 class Mirror: Operation {
-    
-    override var description: String { "m" }
+    override class var code: String { "m" }
+    override class var noConst: Bool { true }
     
     override func operate(num: Int) -> Int {
         let str = "\(num)" + String("\(num.magnitude)".reversed())
         return str.count > Operation.maxLen ? Operation.error : Int(str)!
     }
-    
-    required init?(_ description: String) {
-        if description == "m" {
-            super.init()
-        } else {
-            return nil
-        }
-    }
 }
 
 // ++ ([+] in the game)
 class Increment: Operation {
+    override class var code: String { "++" }
     
-    override var description: String { "++\(const)" }
     let ommitedClasses: [Operation.Type] = [
         Increment.self, Round.self, ShiftN.self
     ]
@@ -510,20 +405,12 @@ class Increment: Operation {
         state.operations.forEach{ op in if !ommitedClasses.contains(where: 
             { $0 == type(of: op) }) { op.const += const } }
     }
-    
-    required init?(_ description: String) {
-        if let i = Operation.parseUnary(target: "++", value: description) {
-            super.init(i)
-        } else {
-            return nil
-        }
-    }
 }
 
 // st (hold store in the game)
 class Store: Operation {
-    
-    override var description: String { "st" }
+    override class var code: String { "st" }
+    override class var noConst: Bool { true }
     
     override func operate(state: CalculatorTheGame) {
         state.operations.forEach{ if $0 is Paste { $0.const = state.current } }
@@ -534,38 +421,25 @@ class Store: Operation {
             state.operations.append(Paste())
         }
     }
-    
-    required init?(_ description: String) {
-        if description == "st" {
-            super.init()
-        } else {
-            return nil
-        }
-    }
 }
 
 // ps (tap store in the game)
 class Paste: Append {
-    
-    override var description: String { "ps\(const)" }
-    
-    init() {
-        super.init(-1)
-    }
-    
-    required init?(_ description: String) {
+    override class var code: String { "ps" }
+    // allow ps-1
+    required convenience init?(_ description: String) {
         if let i = Operation.parseUnary(target: "ps", value: description) {
-            super.init(i)
+            self.init(i)
         } else {
             return nil
         }
     }
 }
 
-// inv (inverse in the game)
+// inv (inv10 in the game)
 class Inverse: Operation {
-    
-    override var description: String { "inv" }
+    override class var code: String { "inv" }
+    override class var noConst: Bool { true }
     
     override func operate(num: Int) -> Int {
         let str = "\(num)"
@@ -574,14 +448,6 @@ class Inverse: Operation {
             result += c == "-" ? "-" : String((10 - Int("\(c)")!) % 10)
         }
         return Int(result)!
-    }
-    
-    required init?(_ description: String) {
-        if description == "inv" {
-            super.init()
-        } else {
-            return nil
-        }
     }
 }
 
@@ -622,6 +488,7 @@ class Portal: Operation {
     }
     
     override func operate(state: CalculatorTheGame) {
+        state.current = Operation.error
     }
     
     override func operate(num: Int) -> Int {

@@ -110,11 +110,12 @@ extension Operation{
         Append.self, Delete.self,
         Power.self, Sign.self,
         Replace.self, Reverse.self,
-        Sum.self, Shift.self,
+        Sum.self, Cut.self,
+        ShiftLeft.self, ShiftRight.self,
         Mirror.self, Increment.self,
         Store.self, Paste.self,
         Inverse.self, Portal.self,
-        Sort.self, Cut.self,
+        SortInc.self, SortDesc.self,
         DeleteAt.self, InsertAt.self,
         Round.self, ShiftN.self,
         AddAt.self, SubtractAt.self,
@@ -127,35 +128,22 @@ extension Operation{
 }
 
 // sort< or sort> (sort< or sort> in the game)
-class Sort: Operation{
-    
-    var desc: Bool
-    
-    init(desc: Bool) {
-        self.desc = desc
-        super.init()
-    }
-    
-    override var description: String { desc ? "sort<" : "sort>" }
-    
-    required convenience init?(_ description: String) {
-        if description == "sort<" {
-            self.init(desc: true)
-        } else if description == "sort>" {
-            self.init(desc: false)
-        } else {
-            return nil
-        }
-    }
+class SortInc: Operation{
+    override class var code: String { "sort<" }
+    class var desc: Bool { false }
     
     override func operate(num: Int) -> Int {
         var str = "\(num.magnitude)".sorted()
-        if desc {
+        if Self.desc {
             str.reverse()
         }
         return num.signum() * (Int(String(str)) ?? 0)
     }
-    
+}
+
+class SortDesc: SortInc{
+    override class var code: String { "sort>" }
+    override class var desc: Bool { true }
 }
 
 // cut0
@@ -182,9 +170,6 @@ class Cut: Replace {
 class OpAt: Operation{
     
     class var ommitAt: Bool { false }
-    class var noConst: Bool { false }
-    class var code: String { "?" }
-    class var op: (Int, Int) -> (Int) { (+) }
     let pos: Int
     
     override var description: String {
@@ -329,12 +314,12 @@ class SubtractAt: OpAt{
     override class var code: String { "-" }
 }
 
-class ShiftN: Shift{
+class ShiftN: ShiftLeft{
     
     override var description: String { "shift" + (const < 0 ? "" : "\(const)") }
     
     required convenience init(pos: Int) {
-        self.init(shiftLeft: true)
+        self.init()
         self.const = pos
     }
     
