@@ -117,7 +117,8 @@ extension Operation{
         Sort.self, Cut.self,
         DeleteAt.self, InsertAt.self,
         Round.self, ShiftN.self,
-        AddAt.self, SubtractAt.self
+        AddAt.self, SubtractAt.self,
+        ReplaceAt.self
     ]
     
     static func parse2(_ description: String) -> Operation? {
@@ -365,3 +366,12 @@ class ShiftN: Shift{
     }
 }
 
+class ReplaceAt: OpAt{
+    override class var ommitAt: Bool { true }
+    override class var code: String { "r" }
+    
+    override func operate(front: String, digit: String, back: String) -> Int {
+        return digit == "" ? Operation.error : 
+            Int(front + "\(const)" + back) ?? Operation.error
+    }
+}
