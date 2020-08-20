@@ -30,7 +30,6 @@ public class CalculatorTheGame: GameState{
     var current: Int
     var goal: Int
     var operations: [Operation] = []
-    var portal: Portal?
     
     public convenience init(value: Int, movesLeft: Int, goal: Int, 
                             ops: [String]) {
@@ -44,12 +43,6 @@ public class CalculatorTheGame: GameState{
         self.goal = goal;
         self.operations = ops
         self.operations.forEach{ $0.parseExpand(state: self) }
-        for op in ops {
-            if let port = op as? Portal {
-                portal = port
-                break
-            }
-        }
     }
     
     public required convenience init?(input: () -> String?) {
@@ -92,10 +85,10 @@ public class CalculatorTheGame: GameState{
         let newState = Self.init(
             value: current, movesLeft: movesLeft - 1, goal: goal, ops: newOps)
         op.operate(state: newState)
+        operations.forEach{ $0.postOperate(state: newState) }
         if newState.current == Operation.error || newState.movesLeft < 0 {
             return nil
         }
-        portal?.operate(state: newState)
         return newState
     }
     
@@ -157,6 +150,11 @@ class Operation: LosslessStringConvertible {
     
     func operate(num: Int) -> Int {
         return num
+    }
+    
+    /// Called on each operation after a move is made
+    /// - Parameter state: The state to be updated
+    func postOperate(state: CalculatorTheGame) {
     }
     
     /// Executed when a list of operations is parsed for the state
@@ -612,12 +610,18 @@ class Portal: Operation {
     
     override var description: String { "\(inPos)-\(outPos)" }
     
-    override func operate(state: CalculatorTheGame) {
+    override func postOperate(state: CalculatorTheGame) {
+        if state.current == Operation.error {
+            return
+        }
         var portaled = operate(num: state.current)
         while portaled != state.current {
             state.current = portaled
             portaled = operate(num: portaled)
         }
+    }
+    
+    override func operate(state: CalculatorTheGame) {
     }
     
     override func operate(num: Int) -> Int {
