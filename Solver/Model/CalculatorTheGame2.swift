@@ -118,7 +118,7 @@ extension Operation{
         DeleteAt.self, InsertAt.self,
         Round.self, ShiftN.self,
         AddAt.self, SubtractAt.self,
-        ReplaceAt.self
+        ReplaceAt.self, Lock.self
     ]
     
     static func parse2(_ description: String) -> Operation? {
@@ -373,5 +373,32 @@ class ReplaceAt: OpAt{
     override func operate(front: String, digit: String, back: String) -> Int {
         return digit == "" ? Operation.error : 
             Int(front + "\(const)" + back) ?? Operation.error
+    }
+}
+
+class Lock: ReplaceAt{
+    override class var ommitAt: Bool { true }
+    override class var noConst: Bool { true }
+    override class var code: String { "lock" }
+    
+    // Create a copy of self with const being the digit
+    override func operate(state: CalculatorTheGame) {
+        let s = "\(state.current)"
+        let idx = s.count - pos - 1
+        if idx < 0 || const >= 0 { // if const is not none, do not process
+            state.current = Operation.error
+            return
+        }
+        let digit = Int("\(s[s[idx] ..< s[idx + 1]])")!
+        state.operations.append(Self.init(const: digit, at: pos))
+    }
+    
+    override func postOperate(state: CalculatorTheGame) {
+        if const >= 0 && state.current != Operation.error {
+            state.operations.removeAll{ $0 is Self && $0.const != -1 }
+            let placeHolder = pow(10, Operation.maxLen)!
+            state.current = (state.current.signum() < 0 ? -1 : 1) * 
+                (operate(num: placeHolder + Int(state.current.magnitude)) - placeHolder)
+        }
     }
 }
